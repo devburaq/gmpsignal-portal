@@ -1,0 +1,76 @@
+# GMPSignal — 40 Enterprise Data, Quantitative Crypto, B2B, KYB, Cyber & Regulatory APIs (Apify & MCP)
+
+> GMPSignal (@gmpsignal) publishes 40 production-grade JSON APIs and Model Context Protocol (MCP) tools on the Apify platform for AI Agents, Quantitative Trading Bots, B2B Sales Enrichment (Clay, n8n, Make), Global KYB/Sanctions Compliance, DevSecOps (CISA KEV + EPSS), Academic R&D, Shopify E-Commerce, and Regulatory Filings (SEC EDGAR, FDA, EU TED).
+
+- **Apify Store Publisher Profile:** https://apify.com/gmpsignal
+- **Official Portal:** https://gmpsignal.com
+- **Full LLM Technical Reference:** https://gmpsignal.com/llms-full.txt
+- **Hosted MCP Server Gateway:** https://mcp.apify.com
+- **Pricing Model:** Transparent Pay-Per-Event ($1.00 to $5.00 per 1,000 structured records; no monthly subscription required).
+
+## Quick Connect via Model Context Protocol (Claude Desktop, Cursor, Windsurf)
+
+```json
+{
+  "mcpServers": {
+    "gmpsignal-intelligence-suite": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@apify/actors-mcp-server",
+        "--actors",
+        "gmpsignal/dex-token-scanner-security-auditor,gmpsignal/crypto-orderbook-arbitrage-scanner,gmpsignal/multichain-wallet-aml-risk-screener,gmpsignal/defi-yield-tvl-stablecoin-monitor,gmpsignal/prediction-markets-polymarket-kalshi-scanner,gmpsignal/b2b-company-techstack-contacts-enricher,gmpsignal/global-sanctions-pep-gleif-kyb-screener,gmpsignal/cyber-cve-kev-epss-vulnerability-scanner,gmpsignal/startup-vc-dealflow-yc-github-radar,gmpsignal/academic-patent-research-citation-intelligence,gmpsignal/shopify-global-store-products-scraper"
+      ],
+      "env": {
+        "APIFY_TOKEN": "<YOUR_APIFY_API_TOKEN>"
+      }
+    }
+  }
+}
+```
+
+## Flagship Intelligence APIs (Top 16 Global Verticals)
+
+- [DEX Token Scanner & Rugpull Security Auditor](https://apify.com/gmpsignal/dex-token-scanner-security-auditor): Real-time DexScreener + GoPlus smart contract honeypot, mint/freeze authority, buy/sell tax, and liquidity lock auditing across Solana, Ethereum, Base, Arbitrum, and BSC ($3.50 / 1k items).
+- [Crypto Order Book, Slippage & Funding Arbitrage](https://apify.com/gmpsignal/crypto-orderbook-arbitrage-scanner): Live Level-2 order book depth, $10k/$50k/$100k execution slippage, and cross-exchange arbitrage spread scanner across Binance, Bybit, Kraken, Coinbase, OKX, and KuCoin ($3.00 / 1k items).
+- [Multi-Chain Wallet Portfolio & AML Risk Screener](https://apify.com/gmpsignal/multichain-wallet-aml-risk-screener): EVM & Solana wallet balance, recent transaction velocity, mixer/sanctions exposure, and automated AML risk scoring ($4.00 / 1k items).
+- [DeFi Yield Farming, Protocol TVL & Stablecoin Monitor](https://apify.com/gmpsignal/defi-yield-tvl-stablecoin-monitor): DeFiLlama APY yield pools, multi-chain protocol TVL momentum, and stablecoin peg health intelligence ($2.50 / 1k items).
+- [Polymarket, Kalshi & Manifold Prediction Markets API](https://apify.com/gmpsignal/prediction-markets-polymarket-kalshi-scanner): Real-time implied probabilities, order volume, liquidity, and cross-venue odds comparison across Polymarket, Kalshi, and Manifold ($3.50 / 1k items).
+- [B2B Domain Tech Stack, Contacts, DNS & SSL Enricher](https://apify.com/gmpsignal/b2b-company-techstack-contacts-enricher): Extracts decision-maker emails, phone numbers, social links, 38+ tech stack fingerprints, MX/SPF/DMARC security posture, and RDAP registration data from company domains ($4.00 / 1k items).
+- [Global Corporate KYB, GLEIF LEI & Sanctions Screen](https://apify.com/gmpsignal/global-sanctions-pep-gleif-kyb-screener): Screens corporate entities and individuals against GLEIF Legal Entity Identifiers (LEI), OFAC/UN/EU sanctions lists, and PEP databases ($4.50 / 1k items).
+- [CVE Vulnerability, CISA KEV, EPSS & Exploit Scanner](https://apify.com/gmpsignal/cyber-cve-kev-epss-vulnerability-scanner): Correlates CISA Known Exploited Vulnerabilities (KEV), FIRST.org 30-day EPSS exploitation probabilities, and NVD CVSS v3 scores ($3.00 / 1k items).
+- [YC Startups, GitHub Trending & HN DealFlow Radar](https://apify.com/gmpsignal/startup-vc-dealflow-yc-github-radar): Aggregates Y Combinator directory startups, GitHub trending repositories, and Hacker News Show/Launch traction signals for VC deal-flow ($3.50 / 1k items).
+- [OpenAlex Scientific Papers, Citations & R&D Monitor](https://apify.com/gmpsignal/academic-patent-research-citation-intelligence): Multi-source scientific literature, citation velocity, DOI metadata, and abstract intelligence across OpenAlex, Semantic Scholar, Crossref, and arXiv ($3.00 / 1k items).
+- [Shopify Store Products, Variants & Pricing Scraper](https://apify.com/gmpsignal/shopify-global-store-products-scraper): Extracts complete product catalogs, SKU variants, stock availability, and discount percentages from any global Shopify store ($2.50 / 1k items).
+- [SEC EDGAR Filings Scraper - 10-K, 10-Q, 8-K, Form 4](https://apify.com/gmpsignal/sec-edgar-filings): Official US SEC EDGAR corporate filings and insider transactions ($2.00 / 1k items).
+- [EU TED Public Procurement & Tenders Scraper](https://apify.com/gmpsignal/eu-ted-tenders-scraper): European Union Tenders Electronic Daily (TED) public procurement notices, CPV codes, and PDF/HTML contract links ($2.00 / 1k items).
+- [FDA Warning Letters & GMP Compliance Scraper](https://apify.com/gmpsignal/fda-warning-letters-scraper): US FDA pharmaceutical, medical device, and food GMP inspection warning letters ($2.00 / 1k items).
+- [FDA Recalls & Enforcement - Drugs, Devices, Food](https://apify.com/gmpsignal/fda-recalls-enforcement): Official openFDA drug, device, and food recall enforcement actions ($2.00 / 1k items).
+- [Earthquake Monitor - USGS, EMSC & AFAD Multi-Network](https://apify.com/gmpsignal/earthquake-monitor-usgs-emsc-afad): Cross-verified global seismic events combining USGS, EMSC, and AFAD feeds ($1.00 / 1k items).
+
+## Regional European, Balkan & Macro Intelligence APIs (24 Actors)
+
+- [Global Product Recalls - CPSC, FSIS, EU Safety Gate](https://apify.com/gmpsignal/global-product-recalls)
+- [German Jobs Scraper - Arbeitsagentur Vacancies](https://apify.com/gmpsignal/german-jobs-scraper)
+- [Njuskalo.hr Scraper - Croatia Classifieds](https://apify.com/gmpsignal/njuskalo-scraper)
+- [Bolha.com Scraper - Slovenia Classifieds](https://apify.com/gmpsignal/bolha-scraper)
+- [OLX.ba Scraper - Bosnia Marketplace Listings](https://apify.com/gmpsignal/olx-ba-scraper)
+- [Halooglasi Scraper - Serbia Real Estate & Cars](https://apify.com/gmpsignal/halooglasi-serbia-scraper)
+- [KupujemProdajem Scraper - Serbia Marketplace Listings](https://apify.com/gmpsignal/kupujemprodajem-scraper)
+- [Pazar3.mk & MerrJep Scraper - Macedonia, Kosovo & Albania](https://apify.com/gmpsignal/pazar3-merrjep-balkan-scraper)
+- [Europe-Mediterranean Earthquakes - EMSC Official Data](https://apify.com/gmpsignal/europe-mediterranean-earthquakes-emsc-official-data)
+- [Islamic Prayer Times Worldwide - Monthly Calendars](https://apify.com/gmpsignal/islamic-prayer-times-worldwide-monthly-calendars)
+- [TCMB Exchange Rates - Official Central Bank FX](https://apify.com/gmpsignal/tcmb-exchange-rates-official-turkish-central-bank-fx)
+- [Turkey Crypto Exchange Prices](https://apify.com/gmpsignal/turkey-crypto-exchange-prices)
+- [Turkey Gold Prices - Gram, Quarter, Ons + 35 Banks](https://apify.com/gmpsignal/turkey-gold-prices)
+- [Turkey Weather Forecast (MGM Official) - 81 Provinces](https://apify.com/gmpsignal/turkey-weather-mgm-official)
+- [Turkey On-Duty Pharmacies - Daily Official Directory](https://apify.com/gmpsignal/turkey-on-duty-pharmacies-nobetci-eczane-daily)
+- [Turkey Fuel Prices - 81 Provinces Daily](https://apify.com/gmpsignal/turkey-fuel-prices-81-provinces-daily-benzin-motorin-lpg)
+- [Turkey Car Rental Prices - City & Airport Index](https://apify.com/gmpsignal/turkey-car-rental-prices-city-airport-index)
+- [Turkey Hotels Explorer - Ratings & Amenities](https://apify.com/gmpsignal/turkey-hotels-explorer-ratings-amenities)
+- [Turkey Earthquakes - AFAD Official Data](https://apify.com/gmpsignal/turkey-earthquakes-afad-official-data)
+- [Turkey Domestic Flight Prices](https://apify.com/gmpsignal/turkey-domestic-flight-prices)
+- [Social Community Forum Scraper - Entries & Trending](https://apify.com/gmpsignal/eksi-sozluk-scraper-entries-trending)
+- [Turkey & Greek Islands Ferry Schedules](https://apify.com/gmpsignal/turkey-greek-islands-ferry-schedules)
+- [Turkey Bus Routes & Prices](https://apify.com/gmpsignal/turkey-bus-routes-prices)
+- [Real Estate Property Listings Scraper](https://apify.com/gmpsignal/hepsiemlak-scraper-turkey-real-estate-listings)

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<!--
+/**
+ * @file index.html
+ * @description GMPSignal Enterprise Data, Quantitative Crypto, B2B Lead Enrichment,
+ * KYB/Sanctions, Cybersecurity & Regulatory API Portal (40 AI/MCP-Ready Apify Actors).
+ * Self-contained static web application with interactive category filtering,
+ * custom Claude/Cursor MCP configuration generator, and Pay-Per-Event cost simulator.
+ */
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMPSignal — 40 Enterprise Data, Crypto, B2B, KYB, Cyber &amp; Regulatory AI/MCP APIs</title>
+    <meta name="description" content="40 production-grade Apify Actors and Model Context Protocol (MCP) tools for Quantitative Crypto, Prediction Markets, B2B Enrichment, Global KYB/Sanctions, CISA KEV Cybersecurity, and Regulatory Intelligence.">
+    <link rel="canonical" href="https://gmpsignal.com/">
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs.txt AI Agent Index">
+    <link rel="alternate" type="text/plain" href="/llms-full.txt" title="LLMs Full API Specification">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "GMPSignal 40 Enterprise Data, Crypto, B2B, KYB, Cyber & Regulatory AI/MCP APIs",
+        "description": "40 production-grade JSON APIs and Model Context Protocol (MCP) tools hosted on Apify for AI Agents, Quantitative Trading, B2B Enrichment, Compliance, and Cybersecurity.",
+        "url": "https://gmpsignal.com/",
+        "numberOfItems": 40,
+        "itemListElement": [
+            {
+                "@type": "SoftwareApplication",
+                "position": 1,
+                "name": "DEX Token Scanner & Rugpull Security Auditor",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Cloud / REST API / MCP",
+                "url": "https://apify.com/gmpsignal/dex-token-scanner-security-auditor",
+                "offers": { "@type": "Offer", "price": "3.50", "priceCurrency": "USD", "description": "Per 1,000 structured records" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "position": 2,
+                "name": "Crypto Order Book, Slippage & Funding Arbitrage",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Cloud / REST API / MCP",
+                "url": "https://apify.com/gmpsignal/crypto-orderbook-arbitrage-scanner",
+                "offers": { "@type": "Offer", "price": "3.00", "priceCurrency": "USD", "description": "Per 1,000 structured records" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "position": 3,
+                "name": "Polymarket, Kalshi & Manifold Prediction Markets API",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Cloud / REST API / MCP",
+                "url": "https://apify.com/gmpsignal/prediction-markets-polymarket-kalshi-scanner",
+                "offers": { "@type": "Offer", "price": "3.50", "priceCurrency": "USD", "description": "Per 1,000 structured records" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "position": 4,
+                "name": "B2B Domain Tech Stack, Contacts, DNS & SSL Enricher",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Cloud / REST API / MCP",
+                "url": "https://apify.com/gmpsignal/b2b-company-techstack-contacts-enricher",
+                "offers": { "@type": "Offer", "price": "4.00", "priceCurrency": "USD", "description": "Per 1,000 structured records" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "position": 5,
+                "name": "Global Corporate KYB, GLEIF LEI & Sanctions Screen",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Cloud / REST API / MCP",
+                "url": "https://apify.com/gmpsignal/global-sanctions-pep-gleif-kyb-screener",
+                "offers": { "@type": "Offer", "price": "4.50", "priceCurrency": "USD", "description": "Per 1,000 structured records" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "position": 6,
+                "name": "CVE Vulnerability, CISA KEV, EPSS & Exploit Scanner",
+                "applicationCategory": "SecurityApplication",
+                "operatingSystem": "Cloud / REST API / MCP",
+                "url": "https://apify.com/gmpsignal/cyber-cve-kev-epss-vulnerability-scanner",
+                "offers": { "@type": "Offer", "price": "3.00", "priceCurrency": "USD", "description": "Per 1,000 structured records" }
+            },
+            {
+                "@type": "SoftwareApplication",
+                "position": 7,
+                "name": "Shopify Store Products, Variants & Pricing Scraper",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Cloud / REST API / MCP",
+                "url": "https://apify.com/gmpsignal/shopify-global-store-products-scraper",
+                "offers": { "@type": "Offer", "price": "2.50", "priceCurrency": "USD", "description": "Per 1,000 structured records" }
+            }
+        ]
+    }
+    </script>
+    <style>
+        /**
+         * Global Design Tokens & Dark-Mode Enterprise Theme
+         */
+        :root {
+            --bg-primary: #070b14;
+            --bg-secondary: #0f172a;
+            --bg-card: #111c33;
+            --bg-card-hover: #162442;
+            --border-color: #1e293b;
+            --border-accent: #38bdf8;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent-blue: #38bdf8;
+            --accent-indigo: #6366f1;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /**
+         * Layout Containers & Navigation Bar
+         */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        header.navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(7, 11, 20, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .brand-badge {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
+            color: #070b14;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            letter-spacing: 0.04em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.15s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-indigo));
+            color: #ffffff;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.15s ease;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.92;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: border-color 0.15s ease, color 0.15s ease;
+        }
+
+        .btn-outline:hover,
+        .btn-outline.active {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /**
+         * Hero Section & KPI Metrics Grid
+         */
+        .hero {
+            padding: 64px 0 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            line-height: 1.2;
+            max-width: 920px;
+            margin: 0 auto 18px;
+            background: linear-gradient(90deg, #ffffff, #93c5fd, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.12rem;
+            max-width: 780px;
+            margin: 0 auto 32px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+            margin-top: 28px;
+        }
+
+        .kpi-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+        }
+
+        .kpi-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /**
+         * Filter Controls & Actor Cards Grid
+         */
+        .section {
+            padding: 40px 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 16px;
+            border-radius: 8px;
+            min-width: 280px;
+            font-size: 0.95rem;
+        }
+
+        .actors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 18px;
+        }
+
+        .actor-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+        }
+
+        .actor-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-accent);
+            background: var(--bg-card-hover);
+        }
+
+        .actor-top {
+            margin-bottom: 16px;
+        }
+
+        .actor-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .badge-vertical {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .badge-price {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--accent-emerald);
+        }
+
+        .actor-title {
+            font-size: 1.08rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .actor-slug {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            word-break: break-all;
+        }
+
+        .actor-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /**
+         * Interactive MCP Config Builder & Cost Calculator Panels
+         */
+        .dual-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+            gap: 24px;
+            margin-top: 20px;
+        }
+
+        .panel-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+        }
+
+        .panel-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+
+        pre.code-block {
+            background: #050811;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.82rem;
+            color: #e2e8f0;
+            margin-top: 12px;
+        }
+
+        .calc-row {
+            margin: 16px 0;
+        }
+
+        .calc-row label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .calc-row input[type="range"],
+        .calc-row select {
+            width: 100%;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .calc-result {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 32px 0;
+            margin-top: 48px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Sticky Navigation -->
+    <header class="navbar">
+        <div class="container navbar-inner">
+            <a href="https://apify.com/gmpsignal" class="brand" target="_blank" rel="noopener">
+                <span class="brand-badge">GMPSIGNAL</span>
+                <span>Enterprise Data &amp; AI/MCP Suite</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#catalog">40-Actor Catalog</a>
+                <a href="#mcp-builder">Claude &amp; Cursor MCP Builder</a>
+                <a href="#pricing-calculator">Pay-Per-Event Calculator</a>
+                <a href="https://apify.com/gmpsignal" class="btn-primary" target="_blank" rel="noopener">Open Apify Store Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div class="container">
+            <h1>40 Production-Grade JSON APIs &amp; MCP Tools for AI Agents, Quant Trading &amp; B2B Automation</h1>
+            <p>Connect real-time DEX Security, OrderBook Arbitrage, Polymarket/Kalshi Odds, B2B Domain Tech-Stacks, Global KYB Sanctions, CISA KEV Cybersecurity, OpenAlex R&amp;D, and Shopify Catalogs directly into Claude, Cursor, Clay, and n8n.</p>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">40 / 40</div>
+                    <div class="kpi-label">Verified Production Apify Actors</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">100%</div>
+                    <div class="kpi-label">Model Context Protocol (MCP) Ready</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">$1.00–$5.00</div>
+                    <div class="kpi-label">Transparent Pay-Per-1,000 Records</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">24/7 Cloud</div>
+                    <div class="kpi-label">7 Automated Health &amp; QA Schedules</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive MCP Builder & Pricing Calculator -->
+    <section class="section" id="mcp-builder">
+        <div class="container">
+            <div class="dual-panel">
+                <!-- Claude Desktop & Cursor MCP Config Generator -->
+                <div class="panel-box">
+                    <h3>Interactive Claude Desktop &amp; Cursor MCP Generator</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Select Actors from the catalog below or use the Flagship 11 preset to generate your ready-to-paste MCP server configuration.</p>
+                    <div style="display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
+                        <button type="button" class="btn-primary" id="btnCopyMcp">Copy MCP JSON</button>
+                        <button type="button" class="btn-outline" id="btnPresetFlagship">Select Flagship 11</button>
+                        <button type="button" class="btn-outline" id="btnPresetAll">Select All 40</button>
+                    </div>
+                    <pre class="code-block" id="mcpJsonOutput"></pre>
+                </div>
+
+                <!-- Pay-Per-Event Cost Simulator -->
+                <div class="panel-box" id="pricing-calculator">
+                    <h3>Pay-Per-Event Cost &amp; ROI Simulator</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">No monthly subscriptions. You only pay per thousand structured records delivered to your AI agent or data pipeline.</p>
+                    <div class="calc-row">
+                        <label for="calcActorSelect">Select Intelligence Actor:</label>
+                        <select id="calcActorSelect"></select>
+                    </div>
+                    <div class="calc-row">
+                        <label for="calcVolumeRange">Monthly Volume: <strong id="calcVolumeLabel">10,000</strong> records</label>
+                        <input type="range" id="calcVolumeRange" min="1000" max="250000" step="1000" value="10000">
+                    </div>
+                    <div class="calc-result">
+                        <div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Estimated Monthly Usage Cost</div>
+                            <div style="font-size: 1.65rem; font-weight: 800; color: var(--accent-emerald);" id="calcTotalUsd">$35.00 / mo</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Unit Rate</div>
+                            <div style="font-size: 1.05rem; font-weight: 700;" id="calcUnitRate">$3.50 / 1,000 items</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 40-Actor Interactive Catalog -->
+    <section class="section" id="catalog">
+        <div class="container">
+            <div class="section-header">
+                <h2>Complete 40-Actor Intelligence Catalog</h2>
+                <input type="search" id="actorSearchInput" class="search-input" placeholder="Search 40 Actors by keyword, slug, or vertical...">
+            </div>
+            <div class="filter-bar" id="categoryFilterBar"></div>
+            <div class="actors-grid" id="actorsGrid"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 GMPSignal Enterprise Data &amp; AI/MCP Intelligence Suite. All 40 Actors hosted on <a href="https://apify.com/gmpsignal" style="color: var(--accent-blue); text-decoration: none;">Apify Store (@gmpsignal)</a>.</p>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * Complete 40-Actor Registry Dataset for GMPSignal.
+         * @type {Array<{id: string, slug: string, title: string, vertical: string, price: number, flagship: boolean}>}
+         */
+        const GMPSIGNAL_ACTORS = [
+            { id: "m0VEb2jd2miuiwDoc", slug: "dex-token-scanner-security-auditor", title: "DEX Token Scanner & Rugpull Security Auditor", vertical: "Crypto & Quant", price: 3.5, flagship: true },
+            { id: "P5CDYtV1iibNu0dhJ", slug: "crypto-orderbook-arbitrage-scanner", title: "Crypto Order Book, Slippage & Funding Arbitrage", vertical: "Crypto & Quant", price: 3.0, flagship: true },
+            { id: "odPu49PKadfrmcP0W", slug: "multichain-wallet-aml-risk-screener", title: "Multi-Chain Wallet Portfolio & AML Risk Screener", vertical: "Crypto & Quant", price: 4.0, flagship: true },
+            { id: "06pNfzd7Ot3BlEi5D", slug: "defi-yield-tvl-stablecoin-monitor", title: "DeFi Yield Farming, Protocol TVL & Stablecoin Monitor", vertical: "Crypto & Quant", price: 2.5, flagship: true },
+            { id: "IQl7NDqjkdcNffGMD", slug: "prediction-markets-polymarket-kalshi-scanner", title: "Polymarket, Kalshi & Manifold Prediction Markets API", vertical: "Prediction Markets", price: 3.5, flagship: true },
+            { id: "y5Rra8Y5z68ruae0K", slug: "b2b-company-techstack-contacts-enricher", title: "B2B Domain Tech Stack, Contacts, DNS & SSL Enricher", vertical: "B2B & E-Commerce", price: 4.0, flagship: true },
+            { id: "KJXWjUQhMauUaTfAQ", slug: "global-sanctions-pep-gleif-kyb-screener", title: "Global Corporate KYB, GLEIF LEI & Sanctions Screen", vertical: "KYB, AML & Cyber", price: 4.5, flagship: true },
+            { id: "1MFT2CJ1UUSc2jVJa", slug: "cyber-cve-kev-epss-vulnerability-scanner", title: "CVE Vulnerability, CISA KEV, EPSS & Exploit Scanner", vertical: "KYB, AML & Cyber", price: 3.0, flagship: true },
+            { id: "TUkZLy0Q8uSzC9IRs", slug: "startup-vc-dealflow-yc-github-radar", title: "YC Startups, GitHub Trending & HN DealFlow Radar", vertical: "B2B & E-Commerce", price: 3.5, flagship: true },
+            { id: "9mrIRbo9eRaPyC6kw", slug: "academic-patent-research-citation-intelligence", title: "OpenAlex Scientific Papers, Citations & R&D Monitor", vertical: "Science & Regulatory", price: 3.0, flagship: true },
+            { id: "7JFdzr8FE1qGOMsNX", slug: "shopify-global-store-products-scraper", title: "Shopify Store Products, Variants & Pricing Scraper", vertical: "B2B & E-Commerce", price: 2.5, flagship: true },
+            { id: "U2cUfI4ABc35vR3Ii", slug: "global-product-recalls", title: "Global Product Recalls - CPSC, FSIS, EU Safety Gate", vertical: "Science & Regulatory", price: 2.0, flagship: false },
+            { id: "NxjwKjYkmLEQW3agc", slug: "earthquake-monitor-usgs-emsc-afad", title: "Earthquake Monitor - USGS, EMSC & AFAD Multi-Network", vertical: "Seismic & Regional", price: 1.0, flagship: false },
+            { id: "mLhKDRfzSdcTYVcvX", slug: "eu-ted-tenders-scraper", title: "EU TED Public Procurement & Tenders Scraper", vertical: "Science & Regulatory", price: 2.0, flagship: false },
+            { id: "ObFzCMZox7Zft7MyK", slug: "fda-warning-letters-scraper", title: "FDA Warning Letters & GMP Compliance Scraper", vertical: "Science & Regulatory", price: 2.0, flagship: false },
+            { id: "G1pdXaRCZjzAHp1CJ", slug: "pazar3-merrjep-balkan-scraper", title: "Pazar3.mk & MerrJep Scraper - Macedonia, Kosovo & Albania", vertical: "Balkan & European Markets", price: 2.0, flagship: false },
+            { id: "viF2bVs0PKXi4aHgM", slug: "hepsiemlak-scraper-turkey-real-estate-listings", title: "Real Estate Property Listings & Market Index Scraper", vertical: "Regional Macro & Mobility", price: 2.0, flagship: false },
+            { id: "rZPknj35atq4q6QZl", slug: "sec-edgar-filings", title: "SEC EDGAR Filings Scraper - 10-K, 10-Q, 8-K, Form 4", vertical: "Science & Regulatory", price: 2.0, flagship: false },
+            { id: "UY8lMSyLZfL9v8zme", slug: "german-jobs-scraper", title: "German Jobs Scraper - Arbeitsagentur Vacancies", vertical: "Balkan & European Markets", price: 2.0, flagship: false },
+            { id: "fGm9hJYuzi75jrRnQ", slug: "fda-recalls-enforcement", title: "FDA Recalls & Enforcement - Drugs, Devices, Food", vertical: "Science & Regulatory", price: 2.0, flagship: false },
+            { id: "bSRfga0WvhzNJwx3Y", slug: "njuskalo-scraper", title: "Njuskalo.hr Scraper - Croatia Classifieds", vertical: "Balkan & European Markets", price: 2.0, flagship: false },
+            { id: "xSq3v8tM2G7UxQUc4", slug: "bolha-scraper", title: "Bolha.com Scraper - Slovenia Classifieds", vertical: "Balkan & European Markets", price: 2.0, flagship: false },
+            { id: "FFpQ2baw2aFEwBbhA", slug: "olx-ba-scraper", title: "OLX.ba Scraper - Bosnia Marketplace Listings", vertical: "Balkan & European Markets", price: 2.0, flagship: false },
+            { id: "qEVVqaTbiteBbUCuh", slug: "turkey-crypto-exchange-prices", title: "Regional Crypto Exchange Order & Price Monitor", vertical: "Crypto & Quant", price: 1.0, flagship: false },
+            { id: "LUYX2L1iMPHhreg6S", slug: "halooglasi-serbia-scraper", title: "Halooglasi Scraper - Serbia Real Estate & Cars", vertical: "Balkan & European Markets", price: 2.0, flagship: false },
+            { id: "SaGEPFMj0iQNLNnvu", slug: "kupujemprodajem-scraper", title: "KupujemProdajem Scraper - Serbia Marketplace Listings", vertical: "Balkan & European Markets", price: 2.0, flagship: false },
+            { id: "zI9lHY1LLxPyI4U1i", slug: "turkey-gold-prices", title: "Bullion, Gold & 35-Bank Precious Metals Spread API", vertical: "Regional Macro & Mobility", price: 1.0, flagship: false },
+            { id: "d3VHi6Pd0pVnvmK1f", slug: "turkey-weather-mgm-official", title: "Official Meteorological 81-Province Weather Forecast API", vertical: "Seismic & Regional", price: 1.0, flagship: false },
+            { id: "kvze7tACB5vxeR6cy", slug: "europe-mediterranean-earthquakes-emsc-official-data", title: "Europe-Mediterranean Earthquakes - EMSC Official Data", vertical: "Seismic & Regional", price: 1.0, flagship: false },
+            { id: "quwVUKz7WK4mLKfDr", slug: "islamic-prayer-times-worldwide-monthly-calendars", title: "Global Astronomical Prayer Times - Monthly Calendars", vertical: "Seismic & Regional", price: 1.0, flagship: false },
+            { id: "fvyKiHFtLgrQlSFoU", slug: "turkey-on-duty-pharmacies-nobetci-eczane-daily", title: "Emergency On-Duty Pharmacies Daily Healthcare Directory", vertical: "Regional Macro & Mobility", price: 2.0, flagship: false },
+            { id: "Kun1mhifX6ow7rXwZ", slug: "tcmb-exchange-rates-official-turkish-central-bank-fx", title: "Central Bank Official Foreign Exchange Rates (FX) API", vertical: "Regional Macro & Mobility", price: 1.0, flagship: false },
+            { id: "RbMVxjTUrIJrUl5c4", slug: "turkey-fuel-prices-81-provinces-daily-benzin-motorin-lpg", title: "Daily Retail Fuel & Energy Prices Index (81 Provinces)", vertical: "Regional Macro & Mobility", price: 1.0, flagship: false },
+            { id: "EJo0XcHYpbv2yBSQW", slug: "turkey-car-rental-prices-city-airport-index", title: "City & Airport Car Rental Fleet Pricing Index", vertical: "Regional Macro & Mobility", price: 2.0, flagship: false },
+            { id: "BB1XUIU6su8Ray1ar", slug: "turkey-hotels-explorer-ratings-amenities", title: "Hospitality & Hotels Explorer - Ratings & Amenities", vertical: "Regional Macro & Mobility", price: 2.0, flagship: false },
+            { id: "rI43ljD2FsdzwcGQC", slug: "turkey-earthquakes-afad-official-data", title: "Regional Seismic Network Official Earthquake Feed", vertical: "Seismic & Regional", price: 1.0, flagship: false },
+            { id: "O0TwvSdWtyCI9IpxW", slug: "turkey-domestic-flight-prices", title: "Domestic Airline Routes & Flight Fare Aggregator", vertical: "Regional Macro & Mobility", price: 2.0, flagship: false },
+            { id: "1zH7CpKI39iZFbGR3", slug: "eksi-sozluk-scraper-entries-trending", title: "Social Community Forum Scraper - Entries & Trending", vertical: "Regional Macro & Mobility", price: 2.0, flagship: false },
+            { id: "ehIdIOvDyNyZ6fjI4", slug: "turkey-greek-islands-ferry-schedules", title: "Aegean & Greek Islands Maritime Ferry Schedules API", vertical: "Regional Macro & Mobility", price: 5.0, flagship: false },
+            { id: "6CyMOFdcr8uTfMfta", slug: "turkey-bus-routes-prices", title: "Intercity Bus Routes, Terminals & Ticket Pricing API", vertical: "Regional Macro & Mobility", price: 2.0, flagship: false }
+        ];
+
+        const selectedMcpSlugs = new Set(
+            GMPSIGNAL_ACTORS.filter((actor) => actor.flagship).map((actor) => `gmpsignal/${actor.slug}`)
+        );
+        let activeCategory = "ALL";
+
+        /**
+         * Renders the formatted MCP JSON configuration block based on currently selected Actor slugs.
+         */
+        function renderMcpConfig() {
+            const actorsList = Array.from(selectedMcpSlugs);
+            const mcpConfig = {
+                mcpServers: {
+                    "gmpsignal-intelligence-suite": {
+                        command: "npx",
+                        args: [
+                            "-y",
+                            "@apify/actors-mcp-server",
+                            "--actors",
+                            actorsList.join(",")
+                        ],
+                        env: {
+                            APIFY_TOKEN: "<YOUR_APIFY_API_TOKEN>"
+                        }
+                    }
+                }
+            };
+            document.getElementById("mcpJsonOutput").textContent = JSON.stringify(mcpConfig, null, 2);
+        }
+
+        /**
+         * Renders the category filter buttons with live counts.
+         */
+        function renderCategoryFilterBar() {
+            const bar = document.getElementById("categoryFilterBar");
+            const categories = ["ALL", ...new Set(GMPSIGNAL_ACTORS.map((a) => a.vertical))];
+            bar.innerHTML = "";
+
+            categories.forEach((category) => {
+                const count = category === "ALL"
+                    ? GMPSIGNAL_ACTORS.length
+                    : GMPSIGNAL_ACTORS.filter((a) => a.vertical === category).length;
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = `btn-outline ${activeCategory === category ? "active" : ""}`;
+                btn.textContent = `${category} (${count})`;
+                btn.addEventListener("click", () => {
+                    activeCategory = category;
+                    renderCategoryFilterBar();
+                    renderActorsGrid();
+                });
+                bar.appendChild(btn);
+            });
+        }
+
+        /**
+         * Renders the filtered grid of Actor cards.
+         */
+        function renderActorsGrid() {
+            const grid = document.getElementById("actorsGrid");
+            const query = (document.getElementById("actorSearchInput").value || "").toLowerCase().trim();
+            grid.innerHTML = "";
+
+            const filtered = GMPSIGNAL_ACTORS.filter((actor) => {
+                const matchesCategory = activeCategory === "ALL" || actor.vertical === activeCategory;
+                const matchesQuery = !query
+                    || actor.title.toLowerCase().includes(query)
+                    || actor.slug.toLowerCase().includes(query)
+                    || actor.vertical.toLowerCase().includes(query);
+                return matchesCategory && matchesQuery;
+            });
+
+            filtered.forEach((actor) => {
+                const fullSlug = `gmpsignal/${actor.slug}`;
+                const isSelected = selectedMcpSlugs.has(fullSlug);
+
+                const card = document.createElement("div");
+                card.className = "actor-card";
+                card.innerHTML = `
+                    <div class="actor-top">
+                        <div class="actor-meta">
+                            <span class="badge-vertical">${actor.vertical}</span>
+                            <span class="badge-price">$${actor.price.toFixed(2)} / 1k items</span>
+                        </div>
+                        <div class="actor-title">${actor.title}</div>
+                        <div class="actor-slug">${fullSlug}</div>
+                    </div>
+                    <div class="actor-actions">
+                        <button type="button" class="btn-outline ${isSelected ? "active" : ""}" data-slug="${fullSlug}">
+                            ${isSelected ? "Included in MCP" : "+ Add to MCP"}
+                        </button>
+                        <a href="https://apify.com/${fullSlug}" class="btn-primary" target="_blank" rel="noopener">
+                            Open in Store
+                        </a>
+                    </div>
+                `;
+
+                const toggleBtn = card.querySelector("button[data-slug]");
+                toggleBtn.addEventListener("click", () => {
+                    if (selectedMcpSlugs.has(fullSlug)) {
+                        if (selectedMcpSlugs.size > 1) {
+                            selectedMcpSlugs.delete(fullSlug);
+                        }
+                    } else {
+                        selectedMcpSlugs.add(fullSlug);
+                    }
+                    renderMcpConfig();
+                    renderActorsGrid();
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+        /**
+         * Initializes and updates the Pay-Per-Event pricing calculator.
+         */
+        function initCalculator() {
+            const selectEl = document.getElementById("calcActorSelect");
+            const rangeEl = document.getElementById("calcVolumeRange");
+            const volumeLabel = document.getElementById("calcVolumeLabel");
+            const totalUsdEl = document.getElementById("calcTotalUsd");
+            const unitRateEl = document.getElementById("calcUnitRate");
+
+            GMPSIGNAL_ACTORS.forEach((actor, idx) => {
+                const opt = document.createElement("option");
+                opt.value = String(idx);
+                opt.textContent = `${actor.title} ($${actor.price.toFixed(2)} / 1k)`;
+                selectEl.appendChild(opt);
+            });
+
+            function updateCalculation() {
+                const actor = GMPSIGNAL_ACTORS[Number(selectEl.value)] || GMPSIGNAL_ACTORS[0];
+                const volume = Number(rangeEl.value) || 10000;
+                const cost = (volume / 1000) * actor.price;
+                volumeLabel.textContent = volume.toLocaleString("en-US");
+                totalUsdEl.textContent = `$${cost.toFixed(2)} / mo`;
+                unitRateEl.textContent = `$${actor.price.toFixed(2)} / 1,000 items`;
+            }
+
+            selectEl.addEventListener("change", updateCalculation);
+            rangeEl.addEventListener("input", updateCalculation);
+            updateCalculation();
+        }
+
+        document.getElementById("actorSearchInput").addEventListener("input", renderActorsGrid);
+
+        document.getElementById("btnPresetFlagship").addEventListener("click", () => {
+            selectedMcpSlugs.clear();
+            GMPSIGNAL_ACTORS.filter((a) => a.flagship).forEach((a) => selectedMcpSlugs.add(`gmpsignal/${a.slug}`));
+            renderMcpConfig();
+            renderActorsGrid();
+        });
+
+        document.getElementById("btnPresetAll").addEventListener("click", () => {
+            GMPSIGNAL_ACTORS.forEach((a) => selectedMcpSlugs.add(`gmpsignal/${a.slug}`));
+            renderMcpConfig();
+            renderActorsGrid();
+        });
+
+        document.getElementById("btnCopyMcp").addEventListener("click", async () => {
+            const text = document.getElementById("mcpJsonOutput").textContent;
+            const btn = document.getElementById("btnCopyMcp");
+            try {
+                await navigator.clipboard.writeText(text);
+                btn.textContent = "Copied to Clipboard!";
+                setTimeout(() => {
+                    btn.textContent = "Copy MCP JSON";
+                }, 2000);
+            } catch (_err) {
+                btn.textContent = "Select & Copy Below";
+            }
+        });
+
+        renderCategoryFilterBar();
+        renderMcpConfig();
+        renderActorsGrid();
+        initCalculator();
+    </script>
+</body>
+</html>

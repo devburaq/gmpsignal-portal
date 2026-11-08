@@ -1,0 +1,214 @@
+# GMPSignal — Complete 40-Actor Technical API & MCP Reference (`llms-full.txt`)
+
+## Overview
+- **Publisher:** GMPSignal (`@gmpsignal`, User ID `IsJvLtZjAD8BlC2Fi`)
+- **Apify Store Profile:** `https://apify.com/gmpsignal`
+- **Portal URL:** `https://gmpsignal.com`
+- **Synchronous REST API Execution Endpoint Pattern:**
+  `POST https://api.apify.com/v2/acts/gmpsignal~<ACTOR_SLUG>/run-sync-get-dataset-items?token=<APIFY_API_TOKEN>`
+- **Hosted MCP Gateway Endpoint Pattern:**
+  `https://mcp.apify.com?actors=gmpsignal/<ACTOR_SLUG>`
+- **NPX CLI MCP Command:**
+  `npx -y gmpsignal-mcp --suite flagship` (or `npx -y @apify/actors-mcp-server --actors <COMMA_SEPARATED_SLUGS>`)
+
+---
+
+## Detailed Specification of Flagship Actors
+
+### 1. `gmpsignal/dex-token-scanner-security-auditor`
+- **Actor ID:** `m0VEb2jd2miuiwDoc`
+- **Pricing:** `$3.50 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "chainId": "solana",
+    "searchQuery": "SOL",
+    "minLiquidityUsd": 10000,
+    "maxResults": 15
+  }
+  ```
+- **Key Output Fields:** `pairAddress`, `chainId`, `dexId`, `baseToken`, `priceUsd`, `liquidityUsd`, `volume24hUsd`, `priceChange24h`, `securityAudit` (`isHoneypot`, `buyTax`, `sellTax`, `isMintable`, `safetyScore`, `riskFlags`).
+
+### 2. `gmpsignal/crypto-orderbook-arbitrage-scanner`
+- **Actor ID:** `P5CDYtV1iibNu0dhJ`
+- **Pricing:** `$3.00 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "symbols": ["BTCUSDT", "ETHUSDT", "SOLUSDT"],
+    "exchanges": ["binance", "bybit", "kraken", "coinbase", "okx", "kucoin"],
+    "maxResults": 30
+  }
+  ```
+- **Key Output Fields:** `symbol`, `exchange`, `bestBid`, `bestAsk`, `spreadBps`, `slippage10kBps`, `slippage50kBps`, `slippage100kBps`, `bestArbitrageBuyVenue`, `bestArbitrageSellVenue`, `netArbitrageSpreadBps`.
+
+### 3. `gmpsignal/multichain-wallet-aml-risk-screener`
+- **Actor ID:** `odPu49PKadfrmcP0W`
+- **Pricing:** `$4.00 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "addresses": ["0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"],
+    "chains": ["ethereum", "base", "arbitrum"],
+    "maxTransactions": 15
+  }
+  ```
+- **Key Output Fields:** `address`, `chain`, `nativeBalance`, `nativeBalanceUsd`, `transactionCount`, `amlRiskScore`, `amlRiskLevel`, `sanctionsFlagged`, `riskIndicators`.
+
+### 4. `gmpsignal/defi-yield-tvl-stablecoin-monitor`
+- **Actor ID:** `06pNfzd7Ot3BlEi5D`
+- **Pricing:** `$2.50 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "mode": "yield_pools",
+    "chains": ["Ethereum", "Solana", "Arbitrum", "Base"],
+    "minTvlUsd": 1000000,
+    "maxResults": 30
+  }
+  ```
+- **Key Output Fields:** `poolId`, `project`, `chain`, `symbol`, `tvlUsd`, `apy`, `apyBase`, `apyReward`, `stablecoin`, `ilRisk`, `riskAdjustedScore`.
+
+### 5. `gmpsignal/prediction-markets-polymarket-kalshi-scanner`
+- **Actor ID:** `IQl7NDqjkdcNffGMD`
+- **Pricing:** `$3.50 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "sources": ["polymarket", "kalshi", "manifold"],
+    "keyword": "",
+    "minVolumeUsd": 1000,
+    "maxResults": 30
+  }
+  ```
+- **Key Output Fields:** `marketId`, `source`, `question`, `category`, `yesProbability`, `noProbability`, `volumeUsd`, `liquidityUsd`, `closeTime`, `marketUrl`.
+
+### 6. `gmpsignal/b2b-company-techstack-contacts-enricher`
+- **Actor ID:** `y5Rra8Y5z68ruae0K`
+- **Pricing:** `$4.00 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "domains": ["stripe.com", "apify.com"],
+    "extractContacts": true,
+    "detectTechStack": true,
+    "maxPagesPerDomain": 2,
+    "maxResults": 10
+  }
+  ```
+- **Key Output Fields:** `domain`, `title`, `description`, `emails`, `phones`, `socialLinks`, `technologies`, `emailProvider`, `hasSpf`, `hasDmarc`, `sslIssuer`, `leadReadinessScore`.
+
+### 7. `gmpsignal/global-sanctions-pep-gleif-kyb-screener`
+- **Actor ID:** `KJXWjUQhMauUaTfAQ`
+- **Pricing:** `$4.50 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "entities": ["Gazprom", "Sberbank", "Deutsche Bank"],
+    "includeGleifLei": true,
+    "includeSanctionsMatch": true,
+    "maxResults": 15
+  }
+  ```
+- **Key Output Fields:** `queryEntity`, `matchedName`, `source`, `leiCode`, `jurisdiction`, `registrationStatus`, `sanctionsFlagged`, `riskScore`, `riskLevel`.
+
+### 8. `gmpsignal/cyber-cve-kev-epss-vulnerability-scanner`
+- **Actor ID:** `1MFT2CJ1UUSc2jVJa`
+- **Pricing:** `$3.00 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "mode": "cisa_kev",
+    "vendorFilter": "",
+    "minEpssScore": 0.05,
+    "maxResults": 30
+  }
+  ```
+- **Key Output Fields:** `cveId`, `vendorProject`, `product`, `vulnerabilityName`, `dateAdded`, `dueDate`, `knownRansomwareCampaignUse`, `epssScore30d`, `epssPercentile`, `urgencyScore`, `priorityTier`.
+
+### 9. `gmpsignal/startup-vc-dealflow-yc-github-radar`
+- **Actor ID:** `TUkZLy0Q8uSzC9IRs`
+- **Pricing:** `$3.50 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "sources": ["yc_companies", "github_trending", "hackernews_launch"],
+    "keyword": "AI",
+    "maxResults": 30
+  }
+  ```
+- **Key Output Fields:** `id`, `source`, `name`, `tagline`, `url`, `category`, `batch`, `starsOrPoints`, `tractionScore`.
+
+### 10. `gmpsignal/academic-patent-research-citation-intelligence`
+- **Actor ID:** `9mrIRbo9eRaPyC6kw`
+- **Pricing:** `$3.00 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "query": "large language model agents",
+    "sources": ["openalex", "semantic_scholar", "arxiv", "crossref"],
+    "minYear": 2024,
+    "maxResults": 30
+  }
+  ```
+- **Key Output Fields:** `paperId`, `source`, `title`, `publicationYear`, `citationCount`, `citationVelocityPerYear`, `doi`, `openAccessPdfUrl`, `authors`, `abstract`.
+
+### 11. `gmpsignal/shopify-global-store-products-scraper`
+- **Actor ID:** `7JFdzr8FE1qGOMsNX`
+- **Pricing:** `$2.50 / 1,000 records` (`PAY_PER_EVENT`)
+- **Input JSON Example:**
+  ```json
+  {
+    "stores": ["allbirds.com", "kyliecosmetics.com", "colourpop.com"],
+    "onlyInStock": false,
+    "onlyOnSale": false,
+    "maxProductsPerStore": 15,
+    "maxResults": 45
+  }
+  ```
+- **Key Output Fields:** `storeDomain`, `productId`, `handle`, `title`, `vendor`, `productType`, `priceMin`, `priceMax`, `isOnSale`, `maxDiscountPercent`, `inStock`, `variants`, `productUrl`.
+
+---
+
+## Complete Index of All 40 GMPSignal Actors (`actorId` & `fullSlug`)
+
+1. `m0VEb2jd2miuiwDoc` — `gmpsignal/dex-token-scanner-security-auditor` ($3.50/1k)
+2. `P5CDYtV1iibNu0dhJ` — `gmpsignal/crypto-orderbook-arbitrage-scanner` ($3.00/1k)
+3. `odPu49PKadfrmcP0W` — `gmpsignal/multichain-wallet-aml-risk-screener` ($4.00/1k)
+4. `06pNfzd7Ot3BlEi5D` — `gmpsignal/defi-yield-tvl-stablecoin-monitor` ($2.50/1k)
+5. `IQl7NDqjkdcNffGMD` — `gmpsignal/prediction-markets-polymarket-kalshi-scanner` ($3.50/1k)
+6. `y5Rra8Y5z68ruae0K` — `gmpsignal/b2b-company-techstack-contacts-enricher` ($4.00/1k)
+7. `KJXWjUQhMauUaTfAQ` — `gmpsignal/global-sanctions-pep-gleif-kyb-screener` ($4.50/1k)
+8. `1MFT2CJ1UUSc2jVJa` — `gmpsignal/cyber-cve-kev-epss-vulnerability-scanner` ($3.00/1k)
+9. `TUkZLy0Q8uSzC9IRs` — `gmpsignal/startup-vc-dealflow-yc-github-radar` ($3.50/1k)
+10. `9mrIRbo9eRaPyC6kw` — `gmpsignal/academic-patent-research-citation-intelligence` ($3.00/1k)
+11. `7JFdzr8FE1qGOMsNX` — `gmpsignal/shopify-global-store-products-scraper` ($2.50/1k)
+12. `U2cUfI4ABc35vR3Ii` — `gmpsignal/global-product-recalls` ($2.00/1k)
+13. `NxjwKjYkmLEQW3agc` — `gmpsignal/earthquake-monitor-usgs-emsc-afad` ($1.00/1k)
+14. `mLhKDRfzSdcTYVcvX` — `gmpsignal/eu-ted-tenders-scraper` ($2.00/1k)
+15. `ObFzCMZox7Zft7MyK` — `gmpsignal/fda-warning-letters-scraper` ($2.00/1k)
+16. `G1pdXaRCZjzAHp1CJ` — `gmpsignal/pazar3-merrjep-balkan-scraper` ($2.00/1k)
+17. `viF2bVs0PKXi4aHgM` — `gmpsignal/hepsiemlak-scraper-turkey-real-estate-listings` ($2.00/1k)
+18. `rZPknj35atq4q6QZl` — `gmpsignal/sec-edgar-filings` ($2.00/1k)
+19. `UY8lMSyLZfL9v8zme` — `gmpsignal/german-jobs-scraper` ($2.00/1k)
+20. `fGm9hJYuzi75jrRnQ` — `gmpsignal/fda-recalls-enforcement` ($2.00/1k)
+21. `bSRfga0WvhzNJwx3Y` — `gmpsignal/njuskalo-scraper` ($2.00/1k)
+22. `xSq3v8tM2G7UxQUc4` — `gmpsignal/bolha-scraper` ($2.00/1k)
+23. `FFpQ2baw2aFEwBbhA` — `gmpsignal/olx-ba-scraper` ($2.00/1k)
+24. `qEVVqaTbiteBbUCuh` — `gmpsignal/turkey-crypto-exchange-prices` ($1.00/1k)
+25. `LUYX2L1iMPHhreg6S` — `gmpsignal/halooglasi-serbia-scraper` ($2.00/1k)
+26. `SaGEPFMj0iQNLNnvu` — `gmpsignal/kupujemprodajem-scraper` ($2.00/1k)
+27. `zI9lHY1LLxPyI4U1i` — `gmpsignal/turkey-gold-prices` ($1.00/1k)
+28. `d3VHi6Pd0pVnvmK1f` — `gmpsignal/turkey-weather-mgm-official` ($1.00/1k)
+29. `kvze7tACB5vxeR6cy` — `gmpsignal/europe-mediterranean-earthquakes-emsc-official-data` ($1.00/1k)
+30. `quwVUKz7WK4mLKfDr` — `gmpsignal/islamic-prayer-times-worldwide-monthly-calendars` ($1.00/1k)
+31. `fvyKiHFtLgrQlSFoU` — `gmpsignal/turkey-on-duty-pharmacies-nobetci-eczane-daily` ($2.00/1k)
+32. `Kun1mhifX6ow7rXwZ` — `gmpsignal/tcmb-exchange-rates-official-turkish-central-bank-fx` ($1.00/1k)
+33. `RbMVxjTUrIJrUl5c4` — `gmpsignal/turkey-fuel-prices-81-provinces-daily-benzin-motorin-lpg` ($1.00/1k)
+34. `EJo0XcHYpbv2yBSQW` — `gmpsignal/turkey-car-rental-prices-city-airport-index` ($2.00/1k)
+35. `BB1XUIU6su8Ray1ar` — `gmpsignal/turkey-hotels-explorer-ratings-amenities` ($2.00/1k)
+36. `rI43ljD2FsdzwcGQC` — `gmpsignal/turkey-earthquakes-afad-official-data` ($1.00/1k)
+37. `O0TwvSdWtyCI9IpxW` — `gmpsignal/turkey-domestic-flight-prices` ($2.00/1k)
+38. `1zH7CpKI39iZFbGR3` — `gmpsignal/eksi-sozluk-scraper-entries-trending` ($2.00/1k)
+39. `ehIdIOvDyNyZ6fjI4` — `gmpsignal/turkey-greek-islands-ferry-schedules` ($5.00/1k)
+40. `6CyMOFdcr8uTfMfta` — `gmpsignal/turkey-bus-routes-prices` ($2.00/1k)
