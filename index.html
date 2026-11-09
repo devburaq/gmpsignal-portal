@@ -476,6 +476,7 @@
             <nav class="nav-links">
                 <a href="#catalog">40-Actor Catalog</a>
                 <a href="#mcp-builder">Claude &amp; Cursor MCP Builder</a>
+                <a href="./openapi-gpt-actions.json" target="_blank" rel="noopener">OpenAPI / GPT Actions</a>
                 <a href="#pricing-calculator">Pay-Per-Event Calculator</a>
                 <a href="https://apify.com/gmpsignal" class="btn-primary" target="_blank" rel="noopener">Open Apify Store Profile</a>
             </nav>
@@ -525,8 +526,12 @@
                     </div>
                     <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
                         <button type="button" class="btn-primary" id="btnCopyMcp">Copy Code Snippet</button>
+                        <a href="cursor://anysphere.cursor-mcp/install?name=gmpsignal&amp;config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkBnbXBzaWduYWwvbWNwLXNlcnZlciIsIi0tc3VpdGUiLCJmbGFnc2hpcCJdLCJlbnYiOnsiQVBJRllfVE9LRU4iOiI8WU9VUl9BUElGWV9BUElfVE9LRU4+In19" class="btn-outline" id="btnInstallCursor" style="border-color: var(--accent-blue); color: var(--accent-blue); font-weight: 600;">⚡ One-Click Install in Cursor</a>
+                        <a href="vscode:mcp/install?%7B%22name%22%3A%22gmpsignal%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40gmpsignal%2Fmcp-server%22%2C%22--suite%22%2C%22flagship%22%5D%7D" class="btn-outline" id="btnInstallVscode" style="border-color: var(--accent-indigo); color: #a5b4fc; font-weight: 600;">⚡ Install in VS Code</a>
                         <button type="button" class="btn-outline" id="btnPresetFlagship">Select Flagship 11</button>
                         <button type="button" class="btn-outline" id="btnPresetAll">Select All 40</button>
+                        <a href="./openapi-gpt-actions.json" class="btn-outline" target="_blank" rel="noopener">OpenAPI 3.1 (GPT Actions)</a>
+                        <a href="./openapi.json" class="btn-outline" target="_blank" rel="noopener">Full 40-Actor OpenAPI</a>
                     </div>
                     <pre class="code-block" id="mcpJsonOutput"></pre>
                 </div>
@@ -631,12 +636,36 @@
         let activeSnippetMode = "npm_mcp";
 
         /**
-         * Renders the formatted MCP JSON or multi-language API snippet based on activeSnippetMode.
+         * Renders the formatted MCP JSON or multi-language API snippet based on activeSnippetMode,
+         * and updates the dynamic One-Click Cursor and VS Code installation deep links.
          */
         function renderMcpConfig() {
             const actorsList = Array.from(selectedMcpSlugs);
             const primarySlug = (actorsList[0] || "gmpsignal/dex-token-scanner-security-auditor").replace("/", "~");
             const outputEl = document.getElementById("mcpJsonOutput");
+            const cursorLinkEl = document.getElementById("btnInstallCursor");
+            const vscodeLinkEl = document.getElementById("btnInstallVscode");
+
+            const dynamicServerDef = activeSnippetMode === "actors_mcp"
+                ? {
+                    command: "npx",
+                    args: ["-y", "@apify/actors-mcp-server", "--actors", actorsList.join(",")],
+                    env: { APIFY_TOKEN: "<YOUR_APIFY_API_TOKEN>" }
+                }
+                : {
+                    command: "npx",
+                    args: ["-y", "@gmpsignal/mcp-server", "--suite", actorsList.length === GMPSIGNAL_ACTORS.length ? "all" : "flagship"],
+                    env: { APIFY_TOKEN: "<YOUR_APIFY_API_TOKEN>" }
+                };
+
+            if (cursorLinkEl) {
+                const b64Config = btoa(JSON.stringify(dynamicServerDef));
+                cursorLinkEl.href = `cursor://anysphere.cursor-mcp/install?name=gmpsignal&config=${encodeURIComponent(b64Config)}`;
+            }
+            if (vscodeLinkEl) {
+                const vscodePayload = JSON.stringify({ name: "gmpsignal", ...dynamicServerDef });
+                vscodeLinkEl.href = `vscode:mcp/install?${encodeURIComponent(vscodePayload)}`;
+            }
 
             if (activeSnippetMode === "npm_mcp") {
                 const npmConfig = {
