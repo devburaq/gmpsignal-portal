@@ -7,7 +7,9 @@
 - **Full LLM Technical Reference:** https://devburaq.github.io/gmpsignal-portal/llms-full.txt
 - **OpenAPI 3.1.0 Schema (OpenAI Custom GPT Actions — 16 Flagship):** https://devburaq.github.io/gmpsignal-portal/openapi-gpt-actions.json
 - **OpenAPI 3.1.0 Schema (Complete 40-Actor Suite):** https://devburaq.github.io/gmpsignal-portal/openapi.json
-- **Official Anthropic MCP Registry ID:** `io.github.devburaq/gmpsignal-mcp-server` (`@gmpsignal/mcp-server@1.3.0`)
+- **Postman Collection v2.1 (All 40 Endpoints):** https://devburaq.github.io/gmpsignal-portal/postman_collection.json
+- **Official Anthropic MCP Registry ID:** `io.github.devburaq/gmpsignal-mcp-server` (`@gmpsignal/mcp-server@1.3.1`)
+- **Official GHCR Docker Image:** `ghcr.io/devburaq/gmpsignal-mcp-n8n-starter-kit:latest`
 - **Hosted MCP Server Gateway:** https://mcp.apify.com
 - **Pricing Model:** Transparent Pay-Per-Event ($1.00 to $5.00 per 1,000 structured records; no monthly subscription required).
 
