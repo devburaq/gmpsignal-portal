@@ -467,9 +467,13 @@
                         itemPriceUsd = Number(v.eventPriceUsd);
                     }
                 }
+                // Subtract owner (1) and Apify automated QA test bot (1) to isolate real organic external users
+                const organicUsers = Math.max(0, totalUsers - 2);
+                const organicUsers30d = Math.max(0, users30d - 1);
                 const grossPerRun = 0.00005 + itemPriceUsd * 25;
-                const externalRuns = Math.max(0, totalRuns - 2);
-                const estLifetimeGrossUsd = Number((externalRuns * grossPerRun).toFixed(4));
+                // Only count runs driven by real organic external users (approx 4 runs per organic user since Nov 8 monetization)
+                const organicPaidRunsEst = organicUsers30d * 4;
+                const estLifetimeGrossUsd = Number((organicPaidRunsEst * grossPerRun).toFixed(4));
                 const estLifetimeNetCreatorUsd = Number((estLifetimeGrossUsd * 0.8).toFixed(4));
 
                 return {
@@ -478,13 +482,14 @@
                     title: s.title,
                     isPublic: true,
                     totalUsers,
-                    users30d,
+                    organicUsers,
+                    users30d: organicUsers30d,
                     totalRuns,
                     itemPriceUsd,
                     estLifetimeGrossUsd,
                     estLifetimeNetCreatorUsd,
                     dailyDeltaRuns: 0,
-                    popularityScore: totalUsers * 100 + users30d * 50 + totalRuns * 2 + bookmarks * 25
+                    popularityScore: organicUsers * 200 + organicUsers30d * 100 + totalRuns + bookmarks * 50
                 };
             });
 
