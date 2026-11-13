@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMPSignal — Live Creator Revenue & API Popularity Telemetry Dashboard</title>
+    <meta name="description" content="Real-time telemetry dashboard tracking GMPSignal Apify Store Actors, top preferred APIs, user adoption, run volume, and estimated PAY_PER_EVENT revenue.">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --bg-card: #111827;
+            --bg-card-hover: #1f2937;
+            --border-color: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #10b981;
+            --accent-purple: #a855f7;
+            --accent-amber: #f59e0b;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+        header {
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .badge-live {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            font-size: 0.75rem;
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+        .container {
+            max-width: 1280px;
+            margin: 32px auto;
+            padding: 0 24px;
+        }
+        .hero-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .hero-bar h1 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .hero-bar p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .input-token {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            width: 260px;
+        }
+        .btn {
+            background: var(--accent-blue);
+            color: #090d16;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .kpi-label {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+        .kpi-value {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-top: 6px;
+        }
+        .kpi-sub {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .text-green { color: var(--accent-green); }
+        .text-blue { color: var(--accent-blue); }
+        .text-purple { color: var(--accent-purple); }
+        .text-amber { color: var(--accent-amber); }
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 28px;
+            overflow-x: auto;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .section-header h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .search-input {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            width: 280px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .actor-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .actor-link:hover {
+            text-decoration: underline;
+        }
+        .rank-pill {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-blue);
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+        .status-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-public {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+        }
+        .status-queued {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="./index.html" class="brand">
+                <span>GMPSignal Telemetry Dashboard</span>
+                <span class="badge-live" id="syncStatusBadge">LIVE STORE SYNC</span>
+            </a>
+            <nav class="nav-links">
+                <a href="./index.html">Developer Portal</a>
+                <a href="https://console.apify.com/actors?tab=publication" target="_blank" rel="noopener">Apify Console Monetization</a>
+                <a href="https://console.apify.com/schedules/N0w3xqSdYeXJupghP" target="_blank" rel="noopener">Daily Auto-Factory Schedule</a>
+                <a href="https://glama.ai/mcp/servers/devburaq/gmpsignal-mcp-n8n-starter-kit" target="_blank" rel="noopener">Glama Grade A</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="hero-bar">
+            <div>
+                <h1>Portfolio Revenue & Most Preferred APIs</h1>
+                <p id="lastUpdatedText">Fetching real-time telemetry from Apify Store & Key-Value Store...</p>
+            </div>
+            <div class="controls">
+                <input type="password" id="apifyTokenInput" class="input-token" placeholder="Optional: Apify Token for Private + KV Delta">
+                <button class="btn" id="refreshBtn">Sync Live Telemetry</button>
+            </div>
+        </div>
+
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Cumulative Net Creator Earnings (80%)</div>
+                <div class="kpi-value text-green" id="kpiNetEarnings">$0.00</div>
+                <div class="kpi-sub" id="kpiGrossEarnings">Gross Store Volume: $0.00</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">24h Daily New Earnings & Runs</div>
+                <div class="kpi-value text-amber" id="kpiDailyEarnings">$0.0000</div>
+                <div class="kpi-sub" id="kpiDailyRuns">Today's Delta Runs: +0 | New Users: +0</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Active Portfolio Actors</div>
+                <div class="kpi-value text-blue" id="kpiActorCount">0 / 500</div>
+                <div class="kpi-sub" id="kpiPublicCount">Public in Store: 0 | Auto-Factory Target: 500</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Total API Users & Executions</div>
+                <div class="kpi-value text-purple" id="kpiTotalUsers">0 Users</div>
+                <div class="kpi-sub" id="kpiTotalRuns">Total Portfolio Runs: 0</div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div class="section-header">
+                <h2>Top 15 Most Preferred APIs (Ranked by Users, 30d Activity & Runs)</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Actor / API Name</th>
+                        <th>Total Users (30d)</th>
+                        <th>Total Runs (+Today)</th>
+                        <th>PAY_PER_EVENT Rate</th>
+                        <th>Est. Net Earnings (80%)</th>
+                    </tr>
+                </thead>
+                <tbody id="top15TableBody">
+                    <tr><td colspan="6">Loading live leaderboard...</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section-card">
+            <div class="section-header">
+                <h2>Complete Portfolio Breakdown (<span id="tableCountLabel">0</span> Actors)</h2>
+                <input type="text" id="filterInput" class="search-input" placeholder="Filter by Actor name or title...">
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Actor / API</th>
+                        <th>Status</th>
+                        <th>Users</th>
+                        <th>Total Runs</th>
+                        <th>Item Price</th>
+                        <th>Est. Gross</th>
+                        <th>Est. Net (80%)</th>
+                    </tr>
+                </thead>
+                <tbody id="allActorsTableBody">
+                    <tr><td colspan="8">Loading complete portfolio...</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        /**
+         * GMPSignal Live Telemetry Dashboard Client
+         *
+         * Automatically fetches live public Actor statistics directly from the official
+         * Apify Store API (`https://api.apify.com/v2/store?search=gmpsignal&limit=500`)
+         * with zero authentication required, and optionally merges private KV telemetry
+         * from `zpyHMPLzaqGxPxc0y/records/LATEST_TELEMETRY` if an Apify token is saved.
+         */
+        const KV_STORE_ID = 'zpyHMPLzaqGxPxc0y';
+        let fullActorList = [];
+
+        const tokenInput = document.getElementById('apifyTokenInput');
+        const savedToken = localStorage.getItem('gmpsignal_apify_token') || '';
+        if (savedToken) {
+            tokenInput.value = savedToken;
+        }
+
+        /**
+         * Renders the KPI summary cards and tables from normalized telemetry data.
+         *
+         * @param {object} report - Normalized telemetry report object.
+         */
+        function renderDashboard(report) {
+            const summary = report.portfolioSummary;
+            document.getElementById('kpiNetEarnings').textContent = '$' + summary.cumulativeEstimatedNetCreatorUsd.toFixed(2);
+            document.getElementById('kpiGrossEarnings').textContent = 'Gross Store Volume: $' + summary.cumulativeEstimatedGrossUsd.toFixed(2);
+            document.getElementById('kpiDailyEarnings').textContent = '+$' + summary.dailyEstimatedNetCreatorUsd.toFixed(4);
+            document.getElementById('kpiDailyRuns').textContent = 'Today Delta Runs: +' + summary.dailyNewRuns + ' | New Users: +' + summary.dailyNewUsers;
+            document.getElementById('kpiActorCount').textContent = summary.totalActors + ' / 500';
+            document.getElementById('kpiPublicCount').textContent = 'Public in Store: ' + summary.publicStoreActors + ' (+5/day Auto-Factory)';
+            document.getElementById('kpiTotalUsers').textContent = summary.totalPortfolioUsers + ' Users';
+            document.getElementById('kpiTotalRuns').textContent = 'Total Portfolio Runs: ' + summary.totalPortfolioRuns.toLocaleString();
+            document.getElementById('lastUpdatedText').textContent = 'Last live sync: ' + new Date(report.generatedAt).toLocaleString();
+
+            const top15Body = document.getElementById('top15TableBody');
+            top15Body.innerHTML = report.top15PreferredApis.map((item) => `
+                <tr>
+                    <td><span class="rank-pill">#${item.rank}</span></td>
+                    <td>
+                        <a class="actor-link" href="https://apify.com/gmpsignal/${item.name}" target="_blank" rel="noopener">${item.name}</a>
+                        <div style="font-size:0.78rem;color:#94a3b8;">${item.title || ''}</div>
+                    </td>
+                    <td><strong>${item.totalUsers}</strong> <span style="color:#94a3b8;">(30d: ${item.users30d || 0})</span></td>
+                    <td><strong>${item.totalRuns}</strong> <span style="color:#10b981;">(+${item.dailyDeltaRuns || 0})</span></td>
+                    <td>$${Number(item.itemPriceUsd || 0.002).toFixed(3)} / item</td>
+                    <td class="text-green"><strong>$${Number(item.estLifetimeNetCreatorUsd || 0).toFixed(2)}</strong></td>
+                </tr>
+            `).join('');
+
+            fullActorList = report.actorMetrics || [];
+            renderAllActorsTable('');
+        }
+
+        /**
+         * Renders the filterable complete portfolio table.
+         *
+         * @param {string} filterQuery - Substring filter for actor name or title.
+         */
+        function renderAllActorsTable(filterQuery) {
+            const q = String(filterQuery || '').toLowerCase().trim();
+            const filtered = fullActorList.filter((a) => !q || a.name.toLowerCase().includes(q) || String(a.title || '').toLowerCase().includes(q));
+            document.getElementById('tableCountLabel').textContent = String(filtered.length);
+
+            const tbody = document.getElementById('allActorsTableBody');
+            tbody.innerHTML = filtered.map((m, idx) => `
+                <tr>
+                    <td>${idx + 1}</td>
+                    <td>
+                        <a class="actor-link" href="https://apify.com/gmpsignal/${m.name}" target="_blank" rel="noopener">${m.name}</a>
+                        <div style="font-size:0.78rem;color:#94a3b8;">${m.title || ''}</div>
+                    </td>
+                    <td><span class="status-pill ${m.isPublic ? 'status-public' : 'status-queued'}">${m.isPublic ? 'PUBLIC' : 'QUEUED'}</span></td>
+                    <td>${m.totalUsers}</td>
+                    <td>${m.totalRuns}</td>
+                    <td>$${Number(m.itemPriceUsd || 0.002).toFixed(3)}</td>
+                    <td>$${Number(m.estLifetimeGrossUsd || 0).toFixed(2)}</td>
+                    <td class="text-green"><strong>$${Number(m.estLifetimeNetCreatorUsd || 0).toFixed(2)}</strong></td>
+                </tr>
+            `).join('');
+        }
+
+        /**
+         * Fetches live telemetry from the Apify KV store (if token provided) or directly
+         * from the zero-auth Apify Public Store API (`https://api.apify.com/v2/store?search=gmpsignal`).
+         */
+        async function loadTelemetry() {
+            const badge = document.getElementById('syncStatusBadge');
+            badge.textContent = 'SYNCING...';
+            const token = tokenInput.value.trim();
+            if (token) {
+                localStorage.setItem('gmpsignal_apify_token', token);
+                try {
+                    const kvRes = await fetch(`https://api.apify.com/v2/key-value-stores/${KV_STORE_ID}/records/LATEST_TELEMETRY?token=${encodeURIComponent(token)}`);
+                    if (kvRes.ok) {
+                        const kvReport = await kvRes.json();
+                        badge.textContent = 'LIVE KV + PRIVATE SYNC';
+                        renderDashboard(kvReport);
+                        return;
+                    }
+                } catch (err) {
+                    console.warn('KV store fetch fallback to public store API:', err);
+                }
+            }
+
+            const storeRes = await fetch('https://api.apify.com/v2/store?search=gmpsignal&limit=500');
+            const storeData = await storeRes.json();
+            const items = (storeData.data?.items || []).filter((i) => i.username === 'gmpsignal');
+
+            const actorMetrics = items.map((s) => {
+                const stats = s.stats || {};
+                const totalRuns = Number(stats.totalRuns || 0);
+                const totalUsers = Number(stats.totalUsers || 0);
+                const users30d = Number(stats.totalUsers30Days || 0);
+                const bookmarks = Number(s.bookmarkCount || 0);
+                const events = s.currentPricingInfo?.pricingPerEvent?.actorChargeEvents || {};
+                let itemPriceUsd = 0.002;
+                for (const [k, v] of Object.entries(events)) {
+                    if (k !== 'apify-actor-start' && v?.eventPriceUsd) {
+                        itemPriceUsd = Number(v.eventPriceUsd);
+                    }
+                }
+                const grossPerRun = 0.00005 + itemPriceUsd * 25;
+                const externalRuns = Math.max(0, totalRuns - 2);
+                const estLifetimeGrossUsd = Number((externalRuns * grossPerRun).toFixed(4));
+                const estLifetimeNetCreatorUsd = Number((estLifetimeGrossUsd * 0.8).toFixed(4));
+
+                return {
+                    id: s.id,
+                    name: s.name,
+                    title: s.title,
+                    isPublic: true,
+                    totalUsers,
+                    users30d,
+                    totalRuns,
+                    itemPriceUsd,
+                    estLifetimeGrossUsd,
+                    estLifetimeNetCreatorUsd,
+                    dailyDeltaRuns: 0,
+                    popularityScore: totalUsers * 100 + users30d * 50 + totalRuns * 2 + bookmarks * 25
+                };
+            });
+
+            const ranked = [...actorMetrics].sort((a, b) => b.popularityScore - a.popularityScore);
+            const top15PreferredApis = ranked.slice(0, 15).map((m, i) => ({ ...m, rank: i + 1 }));
+
+            const totalPortfolioUsers = actorMetrics.reduce((s, m) => s + m.totalUsers, 0);
+            const totalPortfolioRuns = actorMetrics.reduce((s, m) => s + m.totalRuns, 0);
+            const cumulativeEstimatedGrossUsd = Number(actorMetrics.reduce((s, m) => s + m.estLifetimeGrossUsd, 0).toFixed(2));
+            const cumulativeEstimatedNetCreatorUsd = Number(actorMetrics.reduce((s, m) => s + m.estLifetimeNetCreatorUsd, 0).toFixed(2));
+
+            badge.textContent = 'LIVE STORE API SYNC';
+            renderDashboard({
+                generatedAt: new Date().toISOString(),
+                portfolioSummary: {
+                    totalActors: Math.max(55, actorMetrics.length),
+                    publicStoreActors: actorMetrics.length,
+                    totalPortfolioUsers,
+                    totalPortfolioRuns,
+                    dailyNewUsers: 0,
+                    dailyNewRuns: 0,
+                    dailyEstimatedGrossUsd: 0,
+                    dailyEstimatedNetCreatorUsd: 0,
+                    cumulativeEstimatedGrossUsd,
+                    cumulativeEstimatedNetCreatorUsd
+                },
+                top15PreferredApis,
+                actorMetrics: ranked
+            });
+        }
+
+        document.getElementById('refreshBtn').addEventListener('click', loadTelemetry);
+        document.getElementById('filterInput').addEventListener('input', (e) => renderAllActorsTable(e.target.value));
+        loadTelemetry();
+    </script>
+</body>
+</html>
