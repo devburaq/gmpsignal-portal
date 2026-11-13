@@ -109,14 +109,20 @@
             align-items: center;
             flex-wrap: wrap;
         }
-        .input-token {
-            background: var(--bg-card);
+        .input-token, .select-control, .search-input {
+            background: var(--bg-dark);
             border: 1px solid var(--border-color);
             color: var(--text-primary);
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 0.85rem;
+        }
+        .input-token {
+            background: var(--bg-card);
             width: 260px;
+        }
+        .search-input {
+            width: 240px;
         }
         .btn {
             background: var(--accent-blue);
@@ -185,14 +191,11 @@
             font-size: 1.2rem;
             font-weight: 700;
         }
-        .search-input {
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            width: 280px;
+        .filter-toolbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
         }
         table {
             width: 100%;
@@ -210,6 +213,17 @@
             font-size: 0.78rem;
             text-transform: uppercase;
             letter-spacing: 0.04em;
+            user-select: none;
+        }
+        th.sortable {
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+        th.sortable:hover {
+            color: var(--accent-blue);
+        }
+        th.active-sort {
+            color: var(--accent-blue);
         }
         tr:hover td {
             background: rgba(255, 255, 255, 0.02);
@@ -258,8 +272,8 @@
             <nav class="nav-links">
                 <a href="./index.html">Developer Portal</a>
                 <a href="https://console.apify.com/actors?tab=publication" target="_blank" rel="noopener">Apify Console Monetization</a>
+                <a href="https://console.apify.com/billing/payouts" target="_blank" rel="noopener">Creator Payouts</a>
                 <a href="https://console.apify.com/schedules/N0w3xqSdYeXJupghP" target="_blank" rel="noopener">Daily Auto-Factory Schedule</a>
-                <a href="https://glama.ai/mcp/servers/devburaq/gmpsignal-mcp-n8n-starter-kit" target="_blank" rel="noopener">Glama Grade A</a>
             </nav>
         </div>
     </header>
@@ -267,8 +281,8 @@
     <main class="container">
         <div class="hero-bar">
             <div>
-                <h1>Portfolio Revenue & Most Preferred APIs</h1>
-                <p id="lastUpdatedText">Fetching real-time telemetry from Apify Store & Key-Value Store...</p>
+                <h1>Portfolio Revenue &amp; Most Preferred APIs</h1>
+                <p id="lastUpdatedText">Fetching real-time telemetry from Apify Store &amp; Key-Value Store...</p>
             </div>
             <div class="controls">
                 <input type="password" id="apifyTokenInput" class="input-token" placeholder="Optional: Apify Token for Private + KV Delta">
@@ -278,14 +292,14 @@
 
         <section class="kpi-grid">
             <div class="kpi-card">
-                <div class="kpi-label">Cumulative Net Creator Earnings (80%)</div>
+                <div class="kpi-label">Est. Organic Net Creator Earnings (80%)</div>
                 <div class="kpi-value text-green" id="kpiNetEarnings">$0.00</div>
-                <div class="kpi-sub" id="kpiGrossEarnings">Gross Store Volume: $0.00</div>
+                <div class="kpi-sub" id="kpiGrossEarnings">Organic Gross Volume: $0.00 (Excludes QA Bot)</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-label">24h Daily New Earnings & Runs</div>
+                <div class="kpi-label">24h Daily New Earnings &amp; Runs</div>
                 <div class="kpi-value text-amber" id="kpiDailyEarnings">$0.0000</div>
-                <div class="kpi-sub" id="kpiDailyRuns">Today's Delta Runs: +0 | New Users: +0</div>
+                <div class="kpi-sub" id="kpiDailyRuns">Today Delta Runs: +0 | New Users: +0</div>
             </div>
             <div class="kpi-card">
                 <div class="kpi-label">Active Portfolio Actors</div>
@@ -293,29 +307,39 @@
                 <div class="kpi-sub" id="kpiPublicCount">Public in Store: 0 | Auto-Factory Target: 500</div>
             </div>
             <div class="kpi-card">
-                <div class="kpi-label">Total API Users & Executions</div>
-                <div class="kpi-value text-purple" id="kpiTotalUsers">0 Users</div>
-                <div class="kpi-sub" id="kpiTotalRuns">Total Portfolio Runs: 0</div>
+                <div class="kpi-label">Organic External Users &amp; Runs</div>
+                <div class="kpi-value text-purple" id="kpiTotalUsers">0 Organic Users</div>
+                <div class="kpi-sub" id="kpiTotalRuns">Total Runs (Incl. QA): 0</div>
             </div>
         </section>
 
         <section class="section-card">
             <div class="section-header">
-                <h2>Top 15 Most Preferred APIs (Ranked by Users, 30d Activity & Runs)</h2>
+                <h2>Top 15 Most Preferred APIs</h2>
+                <div class="filter-toolbar">
+                    <select id="topSortSelect" class="select-control">
+                        <option value="organicUsers">Sort Top 15: Organic Users (High → Low)</option>
+                        <option value="estLifetimeNetCreatorUsd">Sort Top 15: Est. Net Earnings (High → Low)</option>
+                        <option value="totalUsers">Sort Top 15: Total Users (High → Low)</option>
+                        <option value="totalRuns">Sort Top 15: Total Runs (High → Low)</option>
+                        <option value="itemPriceUsd">Sort Top 15: Item Price (High → Low)</option>
+                    </select>
+                </div>
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>Rank</th>
                         <th>Actor / API Name</th>
-                        <th>Total Users (30d)</th>
+                        <th>Organic Users (Total)</th>
+                        <th>30d Active Organic</th>
                         <th>Total Runs (+Today)</th>
                         <th>PAY_PER_EVENT Rate</th>
-                        <th>Est. Net Earnings (80%)</th>
+                        <th>Est. Organic Net (80%)</th>
                     </tr>
                 </thead>
                 <tbody id="top15TableBody">
-                    <tr><td colspan="6">Loading live leaderboard...</td></tr>
+                    <tr><td colspan="7">Loading live leaderboard...</td></tr>
                 </tbody>
             </table>
         </section>
@@ -323,23 +347,43 @@
         <section class="section-card">
             <div class="section-header">
                 <h2>Complete Portfolio Breakdown (<span id="tableCountLabel">0</span> Actors)</h2>
-                <input type="text" id="filterInput" class="search-input" placeholder="Filter by Actor name or title...">
+                <div class="filter-toolbar">
+                    <select id="segmentFilterSelect" class="select-control">
+                        <option value="all">Filter: All Actors</option>
+                        <option value="organic_only">Filter: Has Organic Users (&gt; 0)</option>
+                        <option value="earning_only">Filter: Has Earnings (&gt; $0.00)</option>
+                        <option value="public_only">Filter: Public in Store Only</option>
+                        <option value="queued_only">Filter: Queued (Private) Only</option>
+                    </select>
+                    <select id="portfolioSortSelect" class="select-control">
+                        <option value="organicUsers_desc">Sort: Organic Users (High → Low)</option>
+                        <option value="organicUsers_asc">Sort: Organic Users (Low → High)</option>
+                        <option value="estLifetimeNetCreatorUsd_desc">Sort: Net Earnings (High → Low)</option>
+                        <option value="estLifetimeNetCreatorUsd_asc">Sort: Net Earnings (Low → High)</option>
+                        <option value="totalUsers_desc">Sort: Total Users (High → Low)</option>
+                        <option value="totalRuns_desc">Sort: Total Runs (High → Low)</option>
+                        <option value="itemPriceUsd_desc">Sort: Price per Item (High → Low)</option>
+                        <option value="name_asc">Sort: Actor Name (A → Z)</option>
+                    </select>
+                    <input type="text" id="filterInput" class="search-input" placeholder="Search Actor name or title...">
+                </div>
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Actor / API</th>
+                        <th class="sortable" data-sort="name">Actor / API ↕</th>
                         <th>Status</th>
-                        <th>Users</th>
-                        <th>Total Runs</th>
-                        <th>Item Price</th>
-                        <th>Est. Gross</th>
-                        <th>Est. Net (80%)</th>
+                        <th class="sortable active-sort" data-sort="organicUsers">Organic Users ↕</th>
+                        <th class="sortable" data-sort="totalUsers">Total Users ↕</th>
+                        <th class="sortable" data-sort="totalRuns">Total Runs ↕</th>
+                        <th class="sortable" data-sort="itemPriceUsd">Item Price ↕</th>
+                        <th class="sortable" data-sort="estLifetimeGrossUsd">Est. Gross ↕</th>
+                        <th class="sortable" data-sort="estLifetimeNetCreatorUsd">Est. Net (80%) ↕</th>
                     </tr>
                 </thead>
                 <tbody id="allActorsTableBody">
-                    <tr><td colspan="8">Loading complete portfolio...</td></tr>
+                    <tr><td colspan="9">Loading complete portfolio...</td></tr>
                 </tbody>
             </table>
         </section>
@@ -347,15 +391,12 @@
 
     <script>
         /**
-         * GMPSignal Live Telemetry Dashboard Client
-         *
-         * Automatically fetches live public Actor statistics directly from the official
-         * Apify Store API (`https://api.apify.com/v2/store?search=gmpsignal&limit=500`)
-         * with zero authentication required, and optionally merges private KV telemetry
-         * from `zpyHMPLzaqGxPxc0y/records/LATEST_TELEMETRY` if an Apify token is saved.
+         * GMPSignal Live Telemetry Dashboard Client with Interactive Filtering & Multi-Column Sorting.
          */
         const KV_STORE_ID = 'zpyHMPLzaqGxPxc0y';
         let fullActorList = [];
+        let currentSortField = 'organicUsers';
+        let currentSortDir = 'desc';
 
         const tokenInput = document.getElementById('apifyTokenInput');
         const savedToken = localStorage.getItem('gmpsignal_apify_token') || '';
@@ -364,49 +405,94 @@
         }
 
         /**
-         * Renders the KPI summary cards and tables from normalized telemetry data.
+         * Normalizes an Actor metric object to ensure organic user and earnings fields exist.
          *
-         * @param {object} report - Normalized telemetry report object.
+         * @param {object} m - Raw metric entry.
+         * @returns {object} Normalized metric entry.
          */
-        function renderDashboard(report) {
-            const summary = report.portfolioSummary;
-            document.getElementById('kpiNetEarnings').textContent = '$' + summary.cumulativeEstimatedNetCreatorUsd.toFixed(2);
-            document.getElementById('kpiGrossEarnings').textContent = 'Gross Store Volume: $' + summary.cumulativeEstimatedGrossUsd.toFixed(2);
-            document.getElementById('kpiDailyEarnings').textContent = '+$' + summary.dailyEstimatedNetCreatorUsd.toFixed(4);
-            document.getElementById('kpiDailyRuns').textContent = 'Today Delta Runs: +' + summary.dailyNewRuns + ' | New Users: +' + summary.dailyNewUsers;
-            document.getElementById('kpiActorCount').textContent = summary.totalActors + ' / 500';
-            document.getElementById('kpiPublicCount').textContent = 'Public in Store: ' + summary.publicStoreActors + ' (+5/day Auto-Factory)';
-            document.getElementById('kpiTotalUsers').textContent = summary.totalPortfolioUsers + ' Users';
-            document.getElementById('kpiTotalRuns').textContent = 'Total Portfolio Runs: ' + summary.totalPortfolioRuns.toLocaleString();
-            document.getElementById('lastUpdatedText').textContent = 'Last live sync: ' + new Date(report.generatedAt).toLocaleString();
+        function normalizeMetric(m) {
+            const totalUsers = Number(m.totalUsers || 0);
+            const organicUsers = m.organicUsers !== undefined ? Number(m.organicUsers) : Math.max(0, totalUsers - 2);
+            const users30d = Number(m.users30d || 0);
+            const totalRuns = Number(m.totalRuns || 0);
+            const itemPriceUsd = Number(m.itemPriceUsd || 0.002);
+            const grossPerRun = 0.00005 + itemPriceUsd * 25;
+            const organicRunsEst = Math.max(organicUsers * 3, users30d * 4);
+            const estLifetimeGrossUsd = Number((organicRunsEst * grossPerRun).toFixed(4));
+            const estLifetimeNetCreatorUsd = Number((estLifetimeGrossUsd * 0.8).toFixed(4));
+
+            return {
+                ...m,
+                totalUsers,
+                organicUsers,
+                users30d,
+                totalRuns,
+                itemPriceUsd,
+                estLifetimeGrossUsd,
+                estLifetimeNetCreatorUsd
+            };
+        }
+
+        /**
+         * Renders the Top 15 leaderboard sorted by the selected metric.
+         */
+        function renderTop15Table() {
+            const sortKey = document.getElementById('topSortSelect').value || 'organicUsers';
+            const sorted = [...fullActorList].sort((a, b) => {
+                const diff = Number(b[sortKey] || 0) - Number(a[sortKey] || 0);
+                if (diff !== 0) return diff;
+                return b.totalRuns - a.totalRuns;
+            });
 
             const top15Body = document.getElementById('top15TableBody');
-            top15Body.innerHTML = report.top15PreferredApis.map((item) => `
+            top15Body.innerHTML = sorted.slice(0, 15).map((item, idx) => `
                 <tr>
-                    <td><span class="rank-pill">#${item.rank}</span></td>
+                    <td><span class="rank-pill">#${idx + 1}</span></td>
                     <td>
                         <a class="actor-link" href="https://apify.com/gmpsignal/${item.name}" target="_blank" rel="noopener">${item.name}</a>
                         <div style="font-size:0.78rem;color:#94a3b8;">${item.title || ''}</div>
                     </td>
-                    <td><strong>${item.totalUsers}</strong> <span style="color:#94a3b8;">(30d: ${item.users30d || 0})</span></td>
+                    <td><strong class="text-blue">${item.organicUsers}</strong> <span style="color:#94a3b8;">(Total: ${item.totalUsers})</span></td>
+                    <td><strong>${item.users30d || 0}</strong></td>
                     <td><strong>${item.totalRuns}</strong> <span style="color:#10b981;">(+${item.dailyDeltaRuns || 0})</span></td>
                     <td>$${Number(item.itemPriceUsd || 0.002).toFixed(3)} / item</td>
                     <td class="text-green"><strong>$${Number(item.estLifetimeNetCreatorUsd || 0).toFixed(2)}</strong></td>
                 </tr>
             `).join('');
-
-            fullActorList = report.actorMetrics || [];
-            renderAllActorsTable('');
         }
 
         /**
-         * Renders the filterable complete portfolio table.
-         *
-         * @param {string} filterQuery - Substring filter for actor name or title.
+         * Renders the complete portfolio breakdown with active segment filter, text search, and column sort.
          */
-        function renderAllActorsTable(filterQuery) {
-            const q = String(filterQuery || '').toLowerCase().trim();
-            const filtered = fullActorList.filter((a) => !q || a.name.toLowerCase().includes(q) || String(a.title || '').toLowerCase().includes(q));
+        function renderAllActorsTable() {
+            const q = String(document.getElementById('filterInput').value || '').toLowerCase().trim();
+            const segment = document.getElementById('segmentFilterSelect').value;
+
+            let filtered = fullActorList.filter((a) => {
+                if (q && !a.name.toLowerCase().includes(q) && !String(a.title || '').toLowerCase().includes(q)) {
+                    return false;
+                }
+                if (segment === 'organic_only' && a.organicUsers <= 0) return false;
+                if (segment === 'earning_only' && a.estLifetimeNetCreatorUsd <= 0) return false;
+                if (segment === 'public_only' && !a.isPublic) return false;
+                if (segment === 'queued_only' && a.isPublic) return false;
+                return true;
+            });
+
+            filtered.sort((a, b) => {
+                if (currentSortField === 'name') {
+                    return currentSortDir === 'asc'
+                        ? a.name.localeCompare(b.name)
+                        : b.name.localeCompare(a.name);
+                }
+                const valA = Number(a[currentSortField] || 0);
+                const valB = Number(b[currentSortField] || 0);
+                if (valB !== valA) {
+                    return currentSortDir === 'asc' ? valA - valB : valB - valA;
+                }
+                return b.totalRuns - a.totalRuns;
+            });
+
             document.getElementById('tableCountLabel').textContent = String(filtered.length);
 
             const tbody = document.getElementById('allActorsTableBody');
@@ -418,6 +504,7 @@
                         <div style="font-size:0.78rem;color:#94a3b8;">${m.title || ''}</div>
                     </td>
                     <td><span class="status-pill ${m.isPublic ? 'status-public' : 'status-queued'}">${m.isPublic ? 'PUBLIC' : 'QUEUED'}</span></td>
+                    <td><strong class="text-blue">${m.organicUsers}</strong></td>
                     <td>${m.totalUsers}</td>
                     <td>${m.totalRuns}</td>
                     <td>$${Number(m.itemPriceUsd || 0.002).toFixed(3)}</td>
@@ -428,8 +515,34 @@
         }
 
         /**
-         * Fetches live telemetry from the Apify KV store (if token provided) or directly
-         * from the zero-auth Apify Public Store API (`https://api.apify.com/v2/store?search=gmpsignal`).
+         * Renders KPI cards and initializes tables from a report object.
+         *
+         * @param {object} report - Telemetry report payload.
+         */
+        function renderDashboard(report) {
+            fullActorList = (report.actorMetrics || []).map(normalizeMetric);
+            const totalOrganicUsers = fullActorList.reduce((acc, m) => acc + m.organicUsers, 0);
+            const totalPortfolioRuns = fullActorList.reduce((acc, m) => acc + m.totalRuns, 0);
+            const cumulativeGross = fullActorList.reduce((acc, m) => acc + m.estLifetimeGrossUsd, 0);
+            const cumulativeNet = fullActorList.reduce((acc, m) => acc + m.estLifetimeNetCreatorUsd, 0);
+            const summary = report.portfolioSummary || {};
+
+            document.getElementById('kpiNetEarnings').textContent = '$' + cumulativeNet.toFixed(2);
+            document.getElementById('kpiGrossEarnings').textContent = 'Organic Gross Volume: $' + cumulativeGross.toFixed(2) + ' (Excludes QA Bot)';
+            document.getElementById('kpiDailyEarnings').textContent = '+$' + Number(summary.dailyEstimatedNetCreatorUsd || 0).toFixed(4);
+            document.getElementById('kpiDailyRuns').textContent = 'Today Delta Runs: +' + (summary.dailyNewRuns || 0) + ' | New Users: +' + (summary.dailyNewUsers || 0);
+            document.getElementById('kpiActorCount').textContent = (summary.totalActors || fullActorList.length) + ' / 500';
+            document.getElementById('kpiPublicCount').textContent = 'Public in Store: ' + (summary.publicStoreActors || fullActorList.filter((x) => x.isPublic).length) + ' (+5/day Auto-Factory)';
+            document.getElementById('kpiTotalUsers').textContent = totalOrganicUsers + ' Organic Users';
+            document.getElementById('kpiTotalRuns').textContent = 'Total Runs (Incl. QA): ' + totalPortfolioRuns.toLocaleString();
+            document.getElementById('lastUpdatedText').textContent = 'Last live sync: ' + new Date(report.generatedAt || Date.now()).toLocaleString();
+
+            renderTop15Table();
+            renderAllActorsTable();
+        }
+
+        /**
+         * Loads live telemetry from KV store (if token provided) or public Apify Store API.
          */
         async function loadTelemetry() {
             const badge = document.getElementById('syncStatusBadge');
@@ -458,8 +571,7 @@
                 const stats = s.stats || {};
                 const totalRuns = Number(stats.totalRuns || 0);
                 const totalUsers = Number(stats.totalUsers || 0);
-                const users30d = Number(stats.totalUsers30Days || 0);
-                const bookmarks = Number(s.bookmarkCount || 0);
+                const users30d = Math.max(0, Number(stats.totalUsers30Days || 0) - 1);
                 const events = s.currentPricingInfo?.pricingPerEvent?.actorChargeEvents || {};
                 let itemPriceUsd = 0.002;
                 for (const [k, v] of Object.entries(events)) {
@@ -467,39 +579,18 @@
                         itemPriceUsd = Number(v.eventPriceUsd);
                     }
                 }
-                // Subtract owner (1) and Apify automated QA test bot (1) to isolate real organic external users
-                const organicUsers = Math.max(0, totalUsers - 2);
-                const organicUsers30d = Math.max(0, users30d - 1);
-                const grossPerRun = 0.00005 + itemPriceUsd * 25;
-                // Only count runs driven by real organic external users (approx 4 runs per organic user since Nov 8 monetization)
-                const organicPaidRunsEst = organicUsers30d * 4;
-                const estLifetimeGrossUsd = Number((organicPaidRunsEst * grossPerRun).toFixed(4));
-                const estLifetimeNetCreatorUsd = Number((estLifetimeGrossUsd * 0.8).toFixed(4));
-
-                return {
+                return normalizeMetric({
                     id: s.id,
                     name: s.name,
                     title: s.title,
                     isPublic: true,
                     totalUsers,
-                    organicUsers,
-                    users30d: organicUsers30d,
+                    users30d,
                     totalRuns,
                     itemPriceUsd,
-                    estLifetimeGrossUsd,
-                    estLifetimeNetCreatorUsd,
-                    dailyDeltaRuns: 0,
-                    popularityScore: organicUsers * 200 + organicUsers30d * 100 + totalRuns + bookmarks * 50
-                };
+                    dailyDeltaRuns: 0
+                });
             });
-
-            const ranked = [...actorMetrics].sort((a, b) => b.popularityScore - a.popularityScore);
-            const top15PreferredApis = ranked.slice(0, 15).map((m, i) => ({ ...m, rank: i + 1 }));
-
-            const totalPortfolioUsers = actorMetrics.reduce((s, m) => s + m.totalUsers, 0);
-            const totalPortfolioRuns = actorMetrics.reduce((s, m) => s + m.totalRuns, 0);
-            const cumulativeEstimatedGrossUsd = Number(actorMetrics.reduce((s, m) => s + m.estLifetimeGrossUsd, 0).toFixed(2));
-            const cumulativeEstimatedNetCreatorUsd = Number(actorMetrics.reduce((s, m) => s + m.estLifetimeNetCreatorUsd, 0).toFixed(2));
 
             badge.textContent = 'LIVE STORE API SYNC';
             renderDashboard({
@@ -507,22 +598,42 @@
                 portfolioSummary: {
                     totalActors: Math.max(55, actorMetrics.length),
                     publicStoreActors: actorMetrics.length,
-                    totalPortfolioUsers,
-                    totalPortfolioRuns,
                     dailyNewUsers: 0,
                     dailyNewRuns: 0,
                     dailyEstimatedGrossUsd: 0,
-                    dailyEstimatedNetCreatorUsd: 0,
-                    cumulativeEstimatedGrossUsd,
-                    cumulativeEstimatedNetCreatorUsd
+                    dailyEstimatedNetCreatorUsd: 0
                 },
-                top15PreferredApis,
-                actorMetrics: ranked
+                actorMetrics
             });
         }
 
         document.getElementById('refreshBtn').addEventListener('click', loadTelemetry);
-        document.getElementById('filterInput').addEventListener('input', (e) => renderAllActorsTable(e.target.value));
+        document.getElementById('topSortSelect').addEventListener('change', renderTop15Table);
+        document.getElementById('segmentFilterSelect').addEventListener('change', renderAllActorsTable);
+        document.getElementById('filterInput').addEventListener('input', renderAllActorsTable);
+
+        document.getElementById('portfolioSortSelect').addEventListener('change', (e) => {
+            const parts = e.target.value.split('_');
+            currentSortDir = parts.pop();
+            currentSortField = parts.join('_');
+            renderAllActorsTable();
+        });
+
+        document.querySelectorAll('th.sortable').forEach((th) => {
+            th.addEventListener('click', () => {
+                const field = th.getAttribute('data-sort');
+                if (currentSortField === field) {
+                    currentSortDir = currentSortDir === 'desc' ? 'asc' : 'desc';
+                } else {
+                    currentSortField = field;
+                    currentSortDir = field === 'name' ? 'asc' : 'desc';
+                }
+                document.querySelectorAll('th.sortable').forEach((el) => el.classList.remove('active-sort'));
+                th.classList.add('active-sort');
+                renderAllActorsTable();
+            });
+        });
+
         loadTelemetry();
     </script>
 </body>
