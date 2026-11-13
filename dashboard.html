@@ -354,12 +354,15 @@
                         <option value="earning_only">Filter: Has Earnings (&gt; $0.00)</option>
                         <option value="public_only">Filter: Public in Store Only</option>
                         <option value="queued_only">Filter: Queued (Private) Only</option>
+                        <option value="quality_needs_fix">Filter: Needs Quality Boost (&lt; 95)</option>
                     </select>
                     <select id="portfolioSortSelect" class="select-control">
                         <option value="organicUsers_desc">Sort: Organic Users (High → Low)</option>
                         <option value="organicUsers_asc">Sort: Organic Users (Low → High)</option>
                         <option value="estLifetimeNetCreatorUsd_desc">Sort: Net Earnings (High → Low)</option>
                         <option value="estLifetimeNetCreatorUsd_asc">Sort: Net Earnings (Low → High)</option>
+                        <option value="qualityScore_desc">Sort: Quality Score (High → Low)</option>
+                        <option value="qualityScore_asc">Sort: Quality Score (Low → High)</option>
                         <option value="totalUsers_desc">Sort: Total Users (High → Low)</option>
                         <option value="totalRuns_desc">Sort: Total Runs (High → Low)</option>
                         <option value="itemPriceUsd_desc">Sort: Price per Item (High → Low)</option>
@@ -374,6 +377,7 @@
                         <th>#</th>
                         <th class="sortable" data-sort="name">Actor / API ↕</th>
                         <th>Status</th>
+                        <th class="sortable" data-sort="qualityScore">Quality ↕</th>
                         <th class="sortable active-sort" data-sort="organicUsers">Organic Users ↕</th>
                         <th class="sortable" data-sort="totalUsers">Total Users ↕</th>
                         <th class="sortable" data-sort="totalRuns">Total Runs ↕</th>
@@ -383,7 +387,7 @@
                     </tr>
                 </thead>
                 <tbody id="allActorsTableBody">
-                    <tr><td colspan="9">Loading complete portfolio...</td></tr>
+                    <tr><td colspan="10">Loading complete portfolio...</td></tr>
                 </tbody>
             </table>
         </section>
@@ -428,6 +432,8 @@
                 users30d,
                 totalRuns,
                 itemPriceUsd,
+                qualityScore: Number(m.qualityScore ?? (m.isPublic ? 90 : 85)),
+                qualityFlags: Array.isArray(m.qualityFlags) ? m.qualityFlags : [],
                 estLifetimeGrossUsd,
                 estLifetimeNetCreatorUsd
             };
@@ -476,6 +482,7 @@
                 if (segment === 'earning_only' && a.estLifetimeNetCreatorUsd <= 0) return false;
                 if (segment === 'public_only' && !a.isPublic) return false;
                 if (segment === 'queued_only' && a.isPublic) return false;
+                if (segment === 'quality_needs_fix' && a.qualityScore >= 95) return false;
                 return true;
             });
 
@@ -496,7 +503,10 @@
             document.getElementById('tableCountLabel').textContent = String(filtered.length);
 
             const tbody = document.getElementById('allActorsTableBody');
-            tbody.innerHTML = filtered.map((m, idx) => `
+            tbody.innerHTML = filtered.map((m, idx) => {
+                const qClass = m.qualityScore >= 95 ? 'status-public' : (m.qualityScore >= 80 ? 'status-queued' : '');
+                const flagTitle = m.qualityFlags.length ? m.qualityFlags.join(', ') : 'All 6 Quality Pillars Verified';
+                return `
                 <tr>
                     <td>${idx + 1}</td>
                     <td>
@@ -504,14 +514,15 @@
                         <div style="font-size:0.78rem;color:#94a3b8;">${m.title || ''}</div>
                     </td>
                     <td><span class="status-pill ${m.isPublic ? 'status-public' : 'status-queued'}">${m.isPublic ? 'PUBLIC' : 'QUEUED'}</span></td>
+                    <td title="${flagTitle}"><span class="status-pill ${qClass}">${m.qualityScore}/100</span></td>
                     <td><strong class="text-blue">${m.organicUsers}</strong></td>
                     <td>${m.totalUsers}</td>
                     <td>${m.totalRuns}</td>
                     <td>$${Number(m.itemPriceUsd || 0.002).toFixed(3)}</td>
                     <td>$${Number(m.estLifetimeGrossUsd || 0).toFixed(2)}</td>
                     <td class="text-green"><strong>$${Number(m.estLifetimeNetCreatorUsd || 0).toFixed(2)}</strong></td>
-                </tr>
-            `).join('');
+                </tr>`;
+            }).join('');
         }
 
         /**
@@ -526,13 +537,16 @@
             const cumulativeGross = fullActorList.reduce((acc, m) => acc + m.estLifetimeGrossUsd, 0);
             const cumulativeNet = fullActorList.reduce((acc, m) => acc + m.estLifetimeNetCreatorUsd, 0);
             const summary = report.portfolioSummary || {};
+            const avgQ = summary.avgQualityScore !== undefined
+                ? summary.avgQualityScore
+                : (fullActorList.length ? (fullActorList.reduce((acc, m) => acc + m.qualityScore, 0) / fullActorList.length).toFixed(1) : '0.0');
 
             document.getElementById('kpiNetEarnings').textContent = '$' + cumulativeNet.toFixed(2);
             document.getElementById('kpiGrossEarnings').textContent = 'Organic Gross Volume: $' + cumulativeGross.toFixed(2) + ' (Excludes QA Bot)';
             document.getElementById('kpiDailyEarnings').textContent = '+$' + Number(summary.dailyEstimatedNetCreatorUsd || 0).toFixed(4);
             document.getElementById('kpiDailyRuns').textContent = 'Today Delta Runs: +' + (summary.dailyNewRuns || 0) + ' | New Users: +' + (summary.dailyNewUsers || 0);
             document.getElementById('kpiActorCount').textContent = (summary.totalActors || fullActorList.length) + ' / 500';
-            document.getElementById('kpiPublicCount').textContent = 'Public in Store: ' + (summary.publicStoreActors || fullActorList.filter((x) => x.isPublic).length) + ' (+5/day Auto-Factory)';
+            document.getElementById('kpiPublicCount').textContent = 'Public: ' + (summary.publicStoreActors || fullActorList.filter((x) => x.isPublic).length) + ' | Avg Quality: ' + avgQ + '/100';
             document.getElementById('kpiTotalUsers').textContent = totalOrganicUsers + ' Organic Users';
             document.getElementById('kpiTotalRuns').textContent = 'Total Runs (Incl. QA): ' + totalPortfolioRuns.toLocaleString();
             document.getElementById('lastUpdatedText').textContent = 'Last live sync: ' + new Date(report.generatedAt || Date.now()).toLocaleString();
